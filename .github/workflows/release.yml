@@ -30,7 +30,7 @@ jobs:
           git config user.email "actions@github.com"
           git config user.name "GitHub Actions"
       - name: Publish JAR
-        run: ./mvnw -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE}} -e -B -Djava.release=11 -Prelease deploy scm:tag -Drevision=${{ steps.extract_branch.outputs.branch }} -Dmaven.test.skip=true
+        run: ./mvnw -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE}} -e -B -Djava.release=11 -Prelease deploy scm:tag -Drevision=${{ steps.extract_branch.outputs.branch }} -DskipTests=true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MAVEN_USERNAME: ${{ secrets.S1OSSH_USER }}
