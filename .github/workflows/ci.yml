@@ -1,0 +1,47 @@
+name: CI
+on:
+  push:
+    branches:
+      - 'main'
+  pull_request:
+    branches-ignore:
+      - 'release'
+jobs:
+  supported-jdk:
+    name: ${{ matrix.title }}
+    continue-on-error: false
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - title: "JDK 17"
+            java: 17
+          - title: "JDK 25"
+            java: "25"
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout from Git'
+        uses: actions/checkout@v3
+      - name: 'Set up JDK ${{ matrix.java }}'
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ matrix.java }}
+          distribution: temurin
+          server-id: central
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
+
+      - name: 'Display JDK version'
+        run: java -version
+      - name: Cache local Maven repository
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven-
+      - name: 'Test'
+        run: mvn -Dsilent=true -B verify
+        env:
+          maven.repo.local: /home/runner/.m2/repository
+          MAVEN_USERNAME: ${{ secrets.S1OSSH_USER }}
+          MAVEN_PASSWORD: ${{ secrets.S1OSSH_TOKEN }}

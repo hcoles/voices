@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.pitest.voices</groupId>
+    <artifactId>voices-parent</artifactId>
+    <version>${revision}</version>
+  </parent>
+
+    <artifactId>en_uk</artifactId>
+    <name>en_uk</name>
+
+    <packaging>jar</packaging>
+
+    <licenses>
+        <license>
+            <name>GPL 3</name>
+            <url>https://www.gnu.org/licenses/gpl-3.0.en.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.pitest.voices</groupId>
+            <artifactId>g2p</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.microsoft.onnxruntime</groupId>
+            <artifactId>onnxruntime</artifactId>
+            <version>1.22.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.pitest.voices</groupId>
+            <artifactId>chorus</artifactId>
+            <version>${project.parent.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.pitest.voices</groupId>
+            <artifactId>chorus</artifactId>
+            <version>${project.parent.version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+            </plugin>
+        </plugins>
+
+    </build>
+
+
+</project>

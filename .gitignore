@@ -1,0 +1,17 @@
+*.checkstyle
+*.swp
+.project
+.settings
+target/
+*/.settings
+*/.classpath
+*/.project
+.metadata
+.idea
+*.iml
+.checkstyle
+dependency-reduced-pom.xml
+.flattened-pom.xml
+*/bin
+.DS_Store
+*.log

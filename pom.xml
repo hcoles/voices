@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.pitest.voices</groupId>
+  <artifactId>voices-parent</artifactId>
+  <version>${revision}</version>
+
+  <name>voices-parent</name>
+  <description>Text to speech for the JVM</description>
+
+  <packaging>pom</packaging>
+  <url>https://github.com/hcoles/voices</url>
+
+  <properties>
+    <!-- this revision number used only for local builds, release version is taken from release branch name -->
+    <revision>dev-SNAPSHOT</revision>
+
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <git.repository>hcoles/voices</git.repository>
+
+  </properties>
+
+  <developers>
+    <developer>
+      <id>henry</id>
+      <name>Henry Coles</name>
+      <email>henry@pitest.org</email>
+    </developer>
+  </developers>
+
+  <licenses>
+    <license>
+      <name>Apache 2</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <profiles>
+    <profile>
+      <id>release</id>
+      <activation>
+        <property>
+          <name>performRelease</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.6</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <gpgArguments>
+                <arg>--pinentry-mode</arg>
+                <arg>loopback</arg>
+              </gpgArguments>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <version>1.6</version>
+          <executions>
+            <execution>
+              <id>sign-artifacts</id>
+              <phase>verify</phase>
+              <goals>
+                <goal>sign</goal>
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+            <gpgArguments>
+              <arg>--pinentry-mode</arg>
+              <arg>loopback</arg>
+            </gpgArguments>
+          </configuration>
+        </plugin>
+        <plugin>
+          <artifactId>maven-scm-plugin</artifactId>
+          <version>1.11.2</version>
+          <configuration>
+            <tag>${project.version}</tag>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.14.0</version>
+          <configuration>
+            <showWarnings>true</showWarnings>
+            <release>17</release>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>3.5.4</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <version>3.5.4</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>3.2.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-shade-plugin</artifactId>
+          <version>3.2.1</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-plugin-plugin</artifactId>
+          <version>3.6.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>flatten-maven-plugin</artifactId>
+          <version>1.2.5</version>
+          <configuration>
+            <updatePomFile>true</updatePomFile>
+            <flattenMode>resolveCiFriendliesOnly</flattenMode>
+          </configuration>
+          <executions>
+            <execution>
+              <id>flatten</id>
+              <phase>package</phase>
+              <goals>
+                <goal>flatten</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>flatten.clean</id>
+              <phase>clean</phase>
+              <goals>
+                <goal>clean</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>2.5.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>3.1.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.3</version>
+        </plugin>
+        <plugin>
+          <groupId>org.sonatype.plugins</groupId>
+          <artifactId>nexus-staging-maven-plugin</artifactId>
+          <version>1.6.13</version>
+          <extensions>true</extensions>
+          <configuration>
+            <serverId>ossrh</serverId>
+            <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>flatten-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter</artifactId>
+        <version>5.13.4</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.assertj</groupId>
+        <artifactId>assertj-core</artifactId>
+        <version>3.22.0</version>
+        <scope>test</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <!-- dependencies used by everything -->
+  <dependencies>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <modules>
+    <module>g2p</module>
+    <module>chorus</module>
+    <module>en_uk</module>
+    <module>en_us</module>
+  </modules>
+
+
+  <scm>
+    <url>scm:git:https://github.com/${git.repository}.git</url>
+    <developerConnection>scm:git:https://github.com/${git.repository}.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+  <distributionManagement>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+    </snapshotRepository>
+    <repository>
+      <id>ossrh</id>
+      <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+  </distributionManagement>
+
+</project>
+
