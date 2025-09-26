@@ -7,11 +7,9 @@ import org.pitest.voices.Chorus;
 import org.pitest.voices.ChorusConfig;
 import org.pitest.voices.Models;
 import org.pitest.voices.Pause;
-import org.pitest.voices.UsModels;
 import org.pitest.voices.Voice;
 import org.pitest.voices.audio.Audio;
 
-import java.nio.file.Path;
 import java.util.List;
 
 import static org.pitest.voices.ChorusConfig.chorusConfig;
