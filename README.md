@@ -3,8 +3,9 @@
 Fast in-process text to speech for Java 17 and above. No external apis. No system dependencies.
 
 
-* [sample 1](https://github.com/user-attachments/assets/89e652ff-fb85-4613-82b4-0bc92c7dc90e)
-* [sample 2](https://github.com/user-attachments/assets/b8906e63-c38a-4698-bf58-c3e136cd9745)
+* [sample 1](https://github.com/user-attachments/assets/3bb91fe5-682a-498b-ab38-3f4e0d1885f6)
+* [sample 2](https://github.com/user-attachments/assets/3ff5dd48-df3f-4b47-9b4e-e88f97bf6d4d)
+
 
 # What is this?
 
