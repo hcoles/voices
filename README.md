@@ -58,8 +58,8 @@ operation, so it is recommended to keep a single instance of `Chorus` for the li
             Voice jenny = chorus.voice(Models.jennyDiocoMedium());
   
             Audio audio = alba.say("Hello there, I'm vaguely Scottish");
-            audio.append(jenny.say("I'm not."));
-            audio.append(alba.withGain(0.5f).say("I am much quieter"));
+            audio = audio.append(jenny.say("I'm not."));
+            audio = audio.append(alba.withGain(0.5f).say("I am much quieter"));
             
             audio.save(some path);
             
