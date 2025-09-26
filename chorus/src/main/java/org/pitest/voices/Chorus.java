@@ -1,6 +1,7 @@
 package org.pitest.voices;
 
 import ai.onnxruntime.OrtEnvironment;
+import ai.onnxruntime.OrtException;
 import ai.onnxruntime.OrtSession;
 import org.pitest.g2p.core.Dictionary;
 import org.pitest.g2p.core.PiperPhonemizer;
@@ -66,16 +67,14 @@ public class Chorus implements AutoCloseable {
 
         conf.cudaOptions().accept(options);
 
-        try {
-            Path json = location.resolve(model.json());
-            ModelConfig config = ModelConfig.fromJson(Files.newInputStream(json, StandardOpenOption.READ));
+        Path json = location.resolve(model.json());
+        try(var in = Files.newInputStream(json, StandardOpenOption.READ)) {
+            ModelConfig config = ModelConfig.fromJson(in);
             OrtSession session = env.createSession(onnx, options);
             return new VoiceSession(env, config, session);
-
-        } catch (Exception e) {
+        } catch (IOException | OrtException e ) {
             throw new RuntimeException(e);
         }
-
     }
 
     @Override
