@@ -19,7 +19,7 @@ It provides three main components
 * A piper-compatible pure Java phonemizer for English partially ported from [phonemize](https://github.com/hans00/phonemize)
 * Compatible phoneme dictionaries for uk and us English
 
-The models are run using the Microsoft onnxruntime library, so can run on both CPU and GPU.
+The models are run using the onnxruntime library, so can run on both CPU and GPU.
 
 ## Usage
 
@@ -52,19 +52,17 @@ The `Chorus` class acts as a manager for voice models, handling loading and free
 operation, so it is recommended to keep a single instance of `Chorus` for the lifetime of your application.
 
 ```java
-        ChorusConfig config = chorusConfig(EnUkDictionary.en_uk());
-        try (Chorus chorus = new Chorus(config)) {
-            Voice alba = chorus.voice(Models.albaMedium());
-            Voice jenny = chorus.voice(Models.jennyDiocoMedium());
+ChorusConfig config = chorusConfig(EnUkDictionary.en_uk());
+try (Chorus chorus = new Chorus(config)) {
+    Voice alba = chorus.voice(Models.albaMedium());
+    Voice jenny = chorus.voice(Models.jennyDiocoMedium());
   
-            Audio audio = alba.say("Hello there, I'm vaguely Scottish");
-            audio = audio.append(jenny.say("I'm not."));
-            audio = audio.append(alba.withGain(0.5f).say("I am much quieter"));
+    Audio audio = alba.say("Hello there, I'm vaguely Scottish");
+    audio = audio.append(jenny.say("I'm not."));
+    audio = audio.append(alba.withGain(0.5f).say("I am much quieter"));
             
-            audio.save(some path);
-            
-            audio.play(); // block while audio plays
-        }
+    audio.save(some path);
+}
 ```
 
 By default, voice models are downloaded to `~/.cache/voices/`, but this can be configured in ChorusConfig.
@@ -78,7 +76,7 @@ will fail to load to gpu.
 To activate the gpu, the gpuChorusConfig can be used.
 
 ```java
-       ChorusConfig config = gpuChorusConfig(EnUkDictionary.en_uk());
+ChorusConfig config = gpuChorusConfig(EnUkDictionary.en_uk());
 ```
 
 This runs the model on gpu 0 with no other options set. More complex setups can be configured using the `withCudaOptions`
