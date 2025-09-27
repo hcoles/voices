@@ -1,5 +1,7 @@
 package org.pitest.voices;
 
+import org.pitest.g2p.core.Language;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -10,6 +12,8 @@ public class Model {
 
     private final String name;
     private final String location;
+    private final Language lang;
+
     private final ModelFetcher resolver;
 
     private final List<Pause> pauses;
@@ -19,12 +23,14 @@ public class Model {
 
     public Model(String name,
                  String location,
+                 Language lang,
                  ModelFetcher resolver,
                  List<Pause> pauses,
                  float gain,
                  ModelParameters params) {
         this.name = name;
         this.location = location;
+        this.lang = lang;
         this.resolver = resolver;
         this.pauses = pauses;
         this.gain = gain;
@@ -33,6 +39,14 @@ public class Model {
 
     public String name() {
         return name;
+    }
+
+    public Language language() {
+        return lang;
+    }
+
+    public Model withLanguage(Language lang) {
+        return new Model(name, location, lang, resolver, pauses, gain, params);
     }
 
     public Path resolve(Path cacheBase) throws IOException {
@@ -80,5 +94,6 @@ public class Model {
         }
         return location;
     }
+
 
 }

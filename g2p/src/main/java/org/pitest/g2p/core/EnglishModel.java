@@ -242,7 +242,7 @@ public class EnglishModel implements G2PModel {
     }
 
     @Override
-    public String predict(Trace trace, String word, Pos pos) {
+    public String predict(Trace trace, Language unused, String word, Pos pos) {
         Trace t = trace.start(word, pos);
         String result = predictInternal(t, word, pos);
         t.result(result);
@@ -378,8 +378,8 @@ public class EnglishModel implements G2PModel {
     private String handleHyphens(Trace t, Pos pos, String lowerWord) {
         String[] parts = lowerWord.split("-");
         if (parts.length == 2) {
-            String part1 = predict(t, parts[0], pos);
-            String part2 = predict(t, parts[1], pos);
+            String part1 = predict(t, Language.en_GB, parts[0], pos);
+            String part2 = predict(t, Language.en_GB, parts[1], pos);
             if (part1 != null && part2 != null) {
                 // Remove stress from first part, add to second part for compound stress pattern
                 String cleanPart1 = part1.replaceAll("ˈ", "");
@@ -526,7 +526,7 @@ public class EnglishModel implements G2PModel {
             // Try to get pronunciation of the base word, either from dictionary or by recursive prediction.
             String basePron = wellKnown(t, base, pos, true);
             if (basePron == null) {
-                basePron = predict(t, base, null);
+                basePron = predict(t, Language.en_GB, base, null);
             }
             if (basePron != null) {
                 t.morphology(basePron);
@@ -540,7 +540,7 @@ public class EnglishModel implements G2PModel {
             String base = word.substring(0, word.length() - 2);
             String basePron = wellKnown(t, base, pos, true);
             if (basePron == null) {
-                basePron = predict(t, base, null);
+                basePron = predict(t, Language.en_GB, base, null);
             }
             if (basePron != null) {
                 t.morphology(basePron);
@@ -553,7 +553,7 @@ public class EnglishModel implements G2PModel {
             String base = word.substring(0, word.length() - 4);
             String basePron = wellKnown(t, base, pos, true);
             if (basePron == null) {
-                basePron = predict(t, base, null);
+                basePron = predict(t, Language.en_GB, base, null);
             }
             if (basePron != null) {
                 t.morphology(basePron);
@@ -563,7 +563,7 @@ public class EnglishModel implements G2PModel {
             base = word.substring(0, word.length() - 3);
             basePron = wellKnown(t, base, pos, true);
             if (basePron == null) {
-                basePron = predict(t, base, null);
+                basePron = predict(t, Language.en_GB, base, null);
             }
             if (basePron != null) {
                 t.morphology(basePron);
@@ -576,7 +576,7 @@ public class EnglishModel implements G2PModel {
             String base = word.substring(0, word.length() - 4);
             String basePron = wellKnown(t, base, pos, true);
             if (basePron == null) {
-                basePron = predict(t, base, pos);
+                basePron = predict(t, Language.en_GB, base, pos);
             }
             if (basePron != null) {
                 t.morphology(basePron);
@@ -813,6 +813,10 @@ public class EnglishModel implements G2PModel {
         return String.join("", phonemes);
     }
 
+    @Override
+    public void close() throws Exception {
+       // no op
+    }
 }
 
 class PhonemeRule {

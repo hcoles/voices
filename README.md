@@ -9,7 +9,7 @@ Fast in-process text to speech for Java 17 and above. No external apis. No syste
 
 # What is this?
 
-An easy-to-use local English text to speech library for Java.
+An easy-to-use local text to speech library for Java.
 
 It can produce reasonable quality audio using low-specced hardware.
 
@@ -18,10 +18,11 @@ It provides three main components
 * Code to retrieve and run the voice models from the [piper](https://github.com/rhasspy/piper) project
 * A piper-compatible pure Java phonemizer for English partially ported from [phonemize](https://github.com/hans00/phonemize)
 * Compatible phoneme dictionaries for uk and us English
+* A multi-lingual phonemizer using the [onnx model](https://huggingface.co/OpenVoiceOS/g2p-mbyt5-12l-ipa-childes-espeak-onnx) from OpenVoiceOs 
 
-The models are run using the onnxruntime library, so can run on both CPU and GPU.
+The models are run using the onnxruntime library, so can utilise both CPU and GPU.
 
-## Usage
+## English-Only Usage
 
 Using Voices requires three dependencies
 
@@ -30,13 +31,13 @@ Using Voices requires three dependencies
 <dependency>
     <groupId>org.pitest.voices</groupId>
     <artifactId>chorus</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.4</version>
 </dependency>
 <!-- dictionary of pronunciations -->
 <dependency>
     <groupId>org.pitest.voices</groupId>
     <artifactId>en_uk</artifactId> <!-- or en_us -->
-    <version>0.0.1</version>
+    <version>0.0.4</version>
 </dependency>
 <!-- runtime for onnx models -->
 <dependency>
@@ -66,6 +67,31 @@ try (Chorus chorus = new Chorus(config)) {
 ```
 
 By default, voice models are downloaded to `~/.cache/voices/`, but this can be configured in ChorusConfig.
+
+## Multi-lingual Usage
+
+The OpenVoice phonemizer is much more capable than the rules-based one. It can be used without a dictionary to
+create good quality speech in multiple languages (including English).
+
+It is a little more heavy-weight (about 50mb vs 3mb for a dictionary file), but this unlikely to be a concern unless running
+on a very resource-limited platform.
+
+Once the dependency has been added
+
+```xml
+<dependency>
+    <groupId>org.pitest.voices</groupId>
+    <artifactId>openvoice-phonemizer</artifactId>
+    <version>0.0.4</version>
+</dependency>
+```
+
+The phonemizer can be selected with
+
+```java
+    ChorusConfig config = chorusConfig(Dictionary.empty())
+            .withModel(new OpenVoiceSupplier());
+```
 
 ## Running on GPU
 

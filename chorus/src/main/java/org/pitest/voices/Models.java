@@ -1,5 +1,7 @@
 package org.pitest.voices;
 
+import org.pitest.g2p.core.Language;
+
 import java.net.URL;
 import java.util.List;
 
@@ -30,9 +32,10 @@ public class Models {
         return sherpaModel("en_GB-northern_english_male-medium", 1.1f);
     }
 
-    static Model sherpaModel(String name, float gain) {
+    private static Model sherpaModel(String name, float gain) {
         return new Model(name,
                 "vits-piper-" + name,
+                Language.en_GB,
                 new ModelDownloader(url("https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-piper-" + name + ".tar.bz2")),
                 defaultPauses(), gain, ModelParameters.defaultParams()
         );
@@ -45,7 +48,7 @@ public class Models {
         );
     }
 
-    private static URL url(String url) {
+    static URL url(String url) {
         try {
             return new URL(url);
         } catch (Exception e) {

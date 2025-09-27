@@ -29,8 +29,8 @@ public class PiperPhonemizer {
         this.trace = trace;
     }
 
-    public List<String> toPhonemes(String text) {
-        Stream<String> wordPhonemes = phonemize(text).stream()
+    public List<String> toPhonemes(Language lang, String text) {
+        Stream<String> wordPhonemes = phonemize(lang, text).stream()
                 .flatMap(this::asChars);
 
         return Stream.concat(Stream.of("^"),
@@ -44,9 +44,9 @@ public class PiperPhonemizer {
      * @param text Text to tokenize
      * @return List of phoneme, one for each word in the input text
      */
-    public List<String> phonemize(String text) {
+    public List<String> phonemize(Language lang, String text) {
         try {
-            return processTokens(text).stream()
+            return processTokens(lang, text).stream()
                     .map(PhonemeToken::getPhoneme)
                     .collect(Collectors.toList());
         } catch (IOException e) {
@@ -54,7 +54,7 @@ public class PiperPhonemizer {
         }
     }
 
-    private List<PhonemeToken> processTokens(String text) throws IOException {
+    private List<PhonemeToken> processTokens(Language lang, String text) throws IOException {
         String expandedText = expandText(text);
 
         // Get tokens with or without positions
@@ -73,7 +73,7 @@ public class PiperPhonemizer {
                 continue;
             }
 
-            String phoneme = g2PModel.predict(trace, token, match.pos());
+            String phoneme = g2PModel.predict(trace, lang, token, match.pos());
 
             // reinsert spaces. makes it a little choppy
             // but prevents the occasional missing sounds on word endings.

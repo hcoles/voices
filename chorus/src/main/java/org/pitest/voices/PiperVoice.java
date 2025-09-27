@@ -111,7 +111,7 @@ class PiperVoice implements Voice {
             return Audio.smallSilence(5);
         }
 
-        return sayPhonemes(phonemizer.toPhonemes(addPauseSymbols(text)));
+        return sayPhonemes(phonemizer.toPhonemes(model.language(), addPauseSymbols(text)));
     }
 
     private String addPauseSymbols(String text) {
