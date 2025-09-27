@@ -9,5 +9,5 @@ public class NoModel implements G2PModel {
     public String predict(Trace trace, String word, Pos pos) {
         return null;
     }
-
+    
 }

@@ -9,7 +9,6 @@ import org.pitest.g2p.core.PiperPhonemizer;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -33,7 +32,7 @@ public class Chorus implements AutoCloseable {
 
     public Voice voice(Model model) {
         var session = voices.computeIfAbsent(model.id(), n -> loadVoice(model));
-        var phonemizer = new PiperPhonemizer(conf.model(), conf.expansions(),  conf.trace());
+        var phonemizer = new PiperPhonemizer(conf.model(), conf.expansions(), conf.trace());
 
         return new PiperVoice(model,
                 phonemizer,
@@ -47,32 +46,20 @@ public class Chorus implements AutoCloseable {
     private VoiceSession loadVoice(Model model) {
         try {
             Files.createDirectories(conf.base());
-            Path location = conf.base().resolve(model.location());
-            if (!Files.exists(location.resolve(model.onnx()))) {
-                Path tempLocation = model.fetch();
-                Files.move(tempLocation, location);
-            }
-
-            return loadPiperModel(model, location);
+            return loadPiperModel(model, model.resolve(conf.base()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private VoiceSession loadPiperModel(Model model, Path location) {
-        String onnx = location.resolve(model.onnx()).toString();
-
+    private VoiceSession loadPiperModel(Model model, Path onnx) {
         OrtEnvironment env = OrtEnvironment.getEnvironment();
         OrtSession.SessionOptions options = new OrtSession.SessionOptions();
-
         conf.cudaOptions().accept(options);
-
-        Path json = location.resolve(model.json());
-        try(var in = Files.newInputStream(json, StandardOpenOption.READ)) {
-            ModelConfig config = ModelConfig.fromJson(in);
-            OrtSession session = env.createSession(onnx, options);
-            return new VoiceSession(env, config, session);
-        } catch (IOException | OrtException e ) {
+        try {
+            OrtSession session = env.createSession(onnx.toString(), options);
+            return new VoiceSession(env, model.resolveConfig(conf.base()), session);
+        } catch (IOException | OrtException e) {
             throw new RuntimeException(e);
         }
     }

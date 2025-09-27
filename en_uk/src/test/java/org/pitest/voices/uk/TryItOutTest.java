@@ -21,7 +21,7 @@ public class TryItOutTest {
             .withTrace(new LoggingTrace());
 
     @Test
-    void gibson() {
+    void orwell() {
         try (Chorus chorus = new Chorus(config)) {
             Voice v1 = chorus.voice(Models.albaMedium());
             var audio = v1.say("It was a bright cold day in April, and the clocks were striking thirteen.");
