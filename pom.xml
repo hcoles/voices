@@ -275,6 +275,7 @@
     <module>chorus</module>
     <module>en_uk</module>
     <module>en_us</module>
+    <module>openvoice</module>
   </modules>
 
 

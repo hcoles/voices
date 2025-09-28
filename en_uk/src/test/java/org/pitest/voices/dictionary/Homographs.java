@@ -2,6 +2,7 @@ package org.pitest.voices.dictionary;
 
 import org.pitest.g2p.core.Dictionary;
 import org.pitest.g2p.core.EnglishModel;
+import org.pitest.g2p.core.Language;
 import org.pitest.g2p.core.PiperPhonemizer;
 import org.pitest.g2p.core.pos.Pos;
 import org.pitest.g2p.core.tracing.Trace;
@@ -66,12 +67,12 @@ public class Homographs {
 
             PosFinder posFinder = new PosFinder(h.word);
             PiperPhonemizer pa = new PiperPhonemizer(new EnglishModel(noHomophones), emptyList(), posFinder);
-            pa.toPhonemes(h.phraseA);
+            pa.toPhonemes(Language.en_GB, h.phraseA);
             var posA = posFinder.pos;
 
             posFinder = new PosFinder(h.word);
             PiperPhonemizer pb = new PiperPhonemizer(new EnglishModel(noHomophones), emptyList(), posFinder);
-            pb.toPhonemes(h.phraseB);
+            pb.toPhonemes(Language.en_GB, h.phraseB);
             var posB = posFinder.pos;
 
 

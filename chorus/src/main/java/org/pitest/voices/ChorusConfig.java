@@ -5,7 +5,6 @@ import ai.onnxruntime.OrtSession;
 import org.pitest.g2p.core.EnglishModel;
 import org.pitest.g2p.core.Dictionary;
 import org.pitest.g2p.core.Expansion;
-import org.pitest.g2p.core.G2PModel;
 import org.pitest.g2p.core.expansions.NumberExpander;
 import org.pitest.g2p.core.syllables.RulesSyllabiliser;
 import org.pitest.g2p.core.tracing.Trace;
@@ -17,7 +16,8 @@ import java.util.function.Consumer;
 public class ChorusConfig {
 
     private final Path base;
-    private final G2PModel phonemeModel;
+    private final Dictionary dictionary;
+    private final G2PModelSupplier phonemeModel;
     private final Trace trace;
     private final List<Expansion> expansions;
     private final Consumer<OrtSession.SessionOptions> cudaOptions;
@@ -32,18 +32,21 @@ public class ChorusConfig {
     }
 
     public ChorusConfig(Dictionary dictionary) {
-        this(defaultCacheDir()
-                , new EnglishModel(dictionary, new RulesSyllabiliser())
+        this(defaultCacheDir(),
+                dictionary
+                , ((s, d,e, p) -> new EnglishModel(d, new RulesSyllabiliser()))
                 , Trace.noTrace(),
                 List.of(new NumberExpander()), c -> {});
     }
 
     public ChorusConfig(Path base,
-                        G2PModel phonemeModel,
+                        Dictionary dictionary,
+                        G2PModelSupplier phonemeModel,
                         Trace trace,
                         List<Expansion> expansions,
                         Consumer<OrtSession.SessionOptions> cudaOptions) {
         this.base = base;
+        this.dictionary = dictionary;
         this.phonemeModel = phonemeModel;
         this.trace = trace;
         this.expansions = expansions;
@@ -54,7 +57,11 @@ public class ChorusConfig {
         return base;
     }
 
-    public G2PModel model() {
+    public Dictionary dictionary() {
+        return dictionary;
+    }
+
+    public G2PModelSupplier model() {
         return phonemeModel;
     }
 
@@ -71,23 +78,23 @@ public class ChorusConfig {
     }
 
     public ChorusConfig withBase(Path base) {
-        return new ChorusConfig(base, phonemeModel, trace, expansions, cudaOptions);
+        return new ChorusConfig(base, dictionary, phonemeModel, trace, expansions, cudaOptions);
     }
 
-    public ChorusConfig withModel(G2PModel phonemeModel) {
-        return new ChorusConfig(base, phonemeModel, trace, expansions, cudaOptions);
+    public ChorusConfig withModel(G2PModelSupplier phonemeModel) {
+        return new ChorusConfig(base, dictionary, phonemeModel, trace, expansions, cudaOptions);
     }
 
     public ChorusConfig withTrace(Trace trace) {
-        return new ChorusConfig(base, phonemeModel, trace, expansions, cudaOptions);
+        return new ChorusConfig(base, dictionary, phonemeModel, trace, expansions, cudaOptions);
     }
 
     public ChorusConfig withExpansions(List<Expansion> expansions)  {
-        return new ChorusConfig(base, phonemeModel, trace, expansions, cudaOptions);
+        return new ChorusConfig(base, dictionary, phonemeModel, trace, expansions, cudaOptions);
     }
 
     public ChorusConfig withCudaOptions(Consumer<OrtSession.SessionOptions> cudaOptions) {
-        return new ChorusConfig(base, phonemeModel, trace, expansions, cudaOptions);
+        return new ChorusConfig(base, dictionary, phonemeModel, trace, expansions, cudaOptions);
     }
 
     private static Path defaultCacheDir() {

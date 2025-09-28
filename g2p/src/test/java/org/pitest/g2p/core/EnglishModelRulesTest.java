@@ -1,5 +1,6 @@
 package org.pitest.g2p.core;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.pitest.g2p.core.pos.Pos;
@@ -11,6 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class EnglishModelRulesTest {
 
+    Language lang = Language.en_GB;
     EnglishModel underTest = new EnglishModel(Dictionary.empty(), new RulesSyllabiliser());
 
 
@@ -168,17 +170,20 @@ class EnglishModelRulesTest {
         checkEndsWith(word, expectedSuffix);
     }
 
+    @Test
+    void ignoresEmDash() {
+        var actual = underTest.predict(Trace.noTrace(), lang, "—", Pos.OTHER);
+        assertThat(actual).isEmpty();
+    }
+
     private void checkEndsWith(String word, String expected) {
-        String actual = underTest.predict(Trace.noTrace(), word, Pos.VBD);
+        String actual = underTest.predict(Trace.noTrace(), lang, word, Pos.VBD);
         assertThat(actual).endsWith(expected);
     }
 
     private void checkWithoutDictionary(String word, String expected) {
-        String actual = underTest.predict(Trace.noTrace(), word, Pos.VBD);
+        String actual = underTest.predict(Trace.noTrace(), lang, word, Pos.VBD);
         assertThat(actual).isEqualTo(expected);
     }
 
-    private static String ipaNoStress(String phonemes) {
-        return phonemes.replaceAll("[ˈˌ]", "");
-    }
 }

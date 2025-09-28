@@ -1,13 +1,19 @@
 package org.pitest.voices;
 
+import org.pitest.g2p.core.Language;
+
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
 
 public class Model {
 
     private final String name;
     private final String location;
+    private final Language lang;
+
     private final ModelFetcher resolver;
 
     private final List<Pause> pauses;
@@ -17,12 +23,14 @@ public class Model {
 
     public Model(String name,
                  String location,
+                 Language lang,
                  ModelFetcher resolver,
                  List<Pause> pauses,
                  float gain,
                  ModelParameters params) {
         this.name = name;
         this.location = location;
+        this.lang = lang;
         this.resolver = resolver;
         this.pauses = pauses;
         this.gain = gain;
@@ -33,8 +41,23 @@ public class Model {
         return name;
     }
 
-    public String location() {
-        return location;
+    public Language language() {
+        return lang;
+    }
+
+    public Model withLanguage(Language lang) {
+        return new Model(name, location, lang, resolver, pauses, gain, params);
+    }
+
+    public Path resolve(Path cacheBase) throws IOException {
+        return resolveFiles(cacheBase).resolve(onnx());
+    }
+
+    public ModelConfig resolveConfig(Path cacheBase) throws IOException {
+        Path json = resolveFiles(cacheBase).resolve(onnx() + ".json");
+        try(var in = Files.newInputStream(json, StandardOpenOption.READ)) {
+            return ModelConfig.fromJson(in);
+        }
     }
 
     public Path fetch() throws IOException {
@@ -49,9 +72,6 @@ public class Model {
         return name + ".onnx";
     }
 
-    String json() {
-        return onnx() + ".json";
-    }
 
     String id() {
         return name;
@@ -64,5 +84,16 @@ public class Model {
     public ModelParameters defaultParams() {
         return params;
     }
+
+    private Path resolveFiles(Path cacheBase) throws IOException {
+        Path location = cacheBase.resolve(this.location);
+        Path onnx = location.resolve(onnx());
+        if (!Files.exists(onnx)) {
+            Path tempLocation = fetch();
+            Files.move(tempLocation, location);
+        }
+        return location;
+    }
+
 
 }
