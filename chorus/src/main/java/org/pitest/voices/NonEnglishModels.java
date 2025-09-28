@@ -6,8 +6,13 @@ import static org.pitest.voices.Models.defaultPauses;
 import static org.pitest.voices.Models.url;
 
 public class NonEnglishModels {
+
     public static Model frFRSiwis() {
         return sherpaModel("fr_FR-siwis-medium", Language.fr_FR, 1.0f);
+    }
+
+    public static Model nlNLRonnie() {
+        return sherpaModel("nl_NL-ronnie-medium", Language.nl_NL, 1.0f);
     }
 
     private static Model sherpaModel(String name, Language lang, float gain) {

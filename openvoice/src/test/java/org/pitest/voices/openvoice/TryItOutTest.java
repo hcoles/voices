@@ -48,6 +48,15 @@ class TryItOutTest {
     }
 
     @Test
+    void nlNL() {
+        try (Chorus chorus = new Chorus(config)) {
+            Voice v1 = chorus.voice(NonEnglishModels.nlNLRonnie());
+            var audio = v1.say("Hallo daar");
+            play(audio);
+        }
+    }
+
+    @Test
     void mobyDick() {
         try (Chorus chorus = new Chorus(config)) {
             Voice v1 = chorus.voice(Models.albaMedium());

@@ -6,7 +6,6 @@ Fast in-process text to speech for Java 17 and above. No external apis. No syste
 * [sample 1](https://github.com/user-attachments/assets/3bb91fe5-682a-498b-ab38-3f4e0d1885f6)
 * [sample 2](https://github.com/user-attachments/assets/3ff5dd48-df3f-4b47-9b4e-e88f97bf6d4d)
 
-
 # What is this?
 
 An easy-to-use local text to speech library for Java.
@@ -21,6 +20,10 @@ It provides three main components
 * A multi-lingual phonemizer using the [onnx model](https://huggingface.co/OpenVoiceOS/g2p-mbyt5-12l-ipa-childes-espeak-onnx) from OpenVoiceOs 
 
 The models are run using the onnxruntime library, so can utilise both CPU and GPU.
+
+## Releases
+
+See [Releases](https://github.com/hcoles/voices/releases)
 
 ## English-Only Usage
 
@@ -73,8 +76,8 @@ By default, voice models are downloaded to `~/.cache/voices/`, but this can be c
 The OpenVoice phonemizer is much more capable than the rules-based one. It can be used without a dictionary to
 create good quality speech in multiple languages (including English).
 
-It is a little more heavy-weight (about 50mb vs 3mb for a dictionary file), but this unlikely to be a concern unless running
-on a very resource-limited platform.
+It is more heavy-weight, using a 50mb model (compared to 3mb for a dictionary file), and is more computationally 
+expensive.
 
 Once the dependency has been added
 
