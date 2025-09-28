@@ -18,22 +18,18 @@ class OpenVoiceModelTest {
 
     @Test
     void hello() throws Exception {
-        var underTest = makeModel();
-
-        var actual = underTest.predict(Trace.noTrace(), Language.en_GB, "hello", Pos.OTHER);
-
-        assertThat(actual).isEqualTo("hələʊ");
-        underTest.close();
+        try(var underTest = makeModel()) {
+            var actual = underTest.predict(Trace.noTrace(), Language.en_GB, "hello", Pos.OTHER);
+            assertThat(actual).isEqualTo("hələʊ");
+        }
     }
 
     @Test
     void bonjour() throws Exception {
-        var underTest = makeModel();
-
-        var actual = underTest.predict(Trace.noTrace(), Language.fr_FR, "bonjour", Pos.OTHER);
-
-        assertThat(actual).isEqualTo("bɔ̃ʒuʁ");
-        underTest.close();
+        try(var underTest = makeModel()) {
+            var actual = underTest.predict(Trace.noTrace(), Language.fr_FR, "bonjour", Pos.OTHER);
+            assertThat(actual).isEqualTo("bɔ̃ʒuʁ");
+        }
     }
 
     private static G2PModel makeModel() {

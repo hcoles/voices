@@ -11,8 +11,6 @@ import org.pitest.voices.NonEnglishModels;
 import org.pitest.voices.Voice;
 import org.pitest.voices.audio.Audio;
 
-import java.nio.file.Path;
-
 import static org.pitest.voices.ChorusConfig.chorusConfig;
 import static org.pitest.voices.util.Play.play;
 
@@ -27,6 +25,15 @@ class TryItOutTest {
         try (Chorus chorus = new Chorus(config)) {
             Voice v1 = chorus.voice(Models.albaMedium());
             var audio = v1.say("It was a bright cold day in April, and the clocks were striking thirteen.");
+            play(audio);
+        }
+    }
+
+    @Test
+    void interruptedSpeech() {
+        try (Chorus chorus = new Chorus(config)) {
+            Voice v1 = chorus.voice(Models.albaMedium());
+            var audio = v1.say("\"That's not what I---\"");
             play(audio);
         }
     }

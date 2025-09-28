@@ -1,5 +1,6 @@
 package org.pitest.g2p.core;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.pitest.g2p.core.pos.Pos;
@@ -169,6 +170,12 @@ class EnglishModelRulesTest {
         checkEndsWith(word, expectedSuffix);
     }
 
+    @Test
+    void ignoresEmDash() {
+        var actual = underTest.predict(Trace.noTrace(), lang, "—", Pos.OTHER);
+        assertThat(actual).isEmpty();
+    }
+
     private void checkEndsWith(String word, String expected) {
         String actual = underTest.predict(Trace.noTrace(), lang, word, Pos.VBD);
         assertThat(actual).endsWith(expected);
@@ -179,7 +186,4 @@ class EnglishModelRulesTest {
         assertThat(actual).isEqualTo(expected);
     }
 
-    private static String ipaNoStress(String phonemes) {
-        return phonemes.replaceAll("[ˈˌ]", "");
-    }
 }

@@ -1,19 +1,18 @@
 package org.pitest.g2p.core;
 
-import opennlp.tools.postag.POSModel;
 import opennlp.tools.tokenize.SimpleTokenizer;
 import org.pitest.g2p.core.pos.POSToken;
 import org.pitest.g2p.core.pos.Pos;
 import org.pitest.g2p.core.pos.SimplePOSTagger;
 import org.pitest.g2p.core.tracing.Trace;
-import org.pitest.g2p.util.Resource;
 
 import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static org.pitest.g2p.core.pos.SimplePOSTagger.makeTagger;
 
 public class PiperPhonemizer {
 
@@ -85,15 +84,6 @@ public class PiperPhonemizer {
         }
 
         return results;
-    }
-
-    private static SimplePOSTagger makeTagger() {
-        try (var s = Resource.readAsStream("/en-pos-maxent.bin")){
-            POSModel posModel = new POSModel(s);
-            return new SimplePOSTagger(posModel);
-        } catch (IOException ex) {
-            throw new UncheckedIOException(ex);
-        }
     }
 
     private String expandText(String text) {
