@@ -33,16 +33,18 @@ class VoiceSession implements AutoCloseable {
     }
 
     Audio sayPhonemes(long[] phoneme_ids, float gain, ModelParameters params) {
-        try {
-            long[][] shapedPhonemeIds = new long[][]{phoneme_ids};
-            long[] phoneme_id_lengths = new long[]{phoneme_ids.length};
+        long[][] shapedPhonemeIds = new long[][]{phoneme_ids};
+        long[] phoneme_id_lengths = new long[]{phoneme_ids.length};
+        try(var scales = OnnxTensor.createTensor(env, new float[]{params.noiseScale(),
+                params.lengthScale(), params.noiseScaleW()});
+            var input = OnnxTensor.createTensor(env, shapedPhonemeIds);
+            var inputLengths = OnnxTensor.createTensor(env, phoneme_id_lengths)) {
 
             Map<String, OnnxTensor> inputsMap = new HashMap<>();
+            inputsMap.put("scales",scales );
+            inputsMap.put("input", input);
+            inputsMap.put("input_lengths", inputLengths);
 
-            inputsMap.put("scales", OnnxTensor.createTensor(env, new float[]{params.noiseScale(),
-                    params.lengthScale(), params.noiseScaleW()}));
-            inputsMap.put("input", OnnxTensor.createTensor(env, shapedPhonemeIds));
-            inputsMap.put("input_lengths", OnnxTensor.createTensor(env, phoneme_id_lengths));
             try (OrtSession.Result result = session.run(inputsMap)) {
                 Optional<OnnxValue> v = result.get("output");
                 if (v.isPresent()) {
@@ -51,7 +53,6 @@ class VoiceSession implements AutoCloseable {
 
                     return new Audio(output[0][0][0], 22050)
                             .withGain(gain);
-
                 } else {
                     throw new RuntimeException("No output!");
                 }

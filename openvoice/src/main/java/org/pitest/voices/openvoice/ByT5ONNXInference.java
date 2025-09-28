@@ -46,29 +46,29 @@ class ByT5ONNXInference implements AutoCloseable {
                     decoderInputIds.size()
             )) {
 
-                OnnxTensor inputIdsTensor = toLongTensor(inputIds, 1, inputIds.length);
-                OnnxTensor attentionMaskTensor = toLongTensor(attentionMask, 1, attentionMask.length);
+                try(OnnxTensor inputIdsTensor = toLongTensor(inputIds, 1, inputIds.length);
+                    OnnxTensor attentionMaskTensor = toLongTensor(attentionMask, 1, attentionMask.length)) {
 
-                Map<String, OnnxTensor> inputs = Map.of(
-                        "input_ids", inputIdsTensor,
-                        "attention_mask", attentionMaskTensor,
-                        "decoder_input_ids", decoderInputTensor);
+                    Map<String, OnnxTensor> inputs = Map.of(
+                            "input_ids", inputIdsTensor,
+                            "attention_mask", attentionMaskTensor,
+                            "decoder_input_ids", decoderInputTensor);
 
-                try (OrtSession.Result results = session.run(inputs)) {
-                    float[][][] logits = (float[][][]) results.get(0).getValue();
-                    float[] nextTokenLogits = logits[0][logits[0].length - 1];
+                    try (OrtSession.Result results = session.run(inputs)) {
+                        float[][][] logits = (float[][][]) results.get(0).getValue();
+                        float[] nextTokenLogits = logits[0][logits[0].length - 1];
 
-                    // Greedy selection
-                    int nextTokenId = argMax(nextTokenLogits);
-                    generatedIds.add(nextTokenId);
+                        // Greedy selection
+                        int nextTokenId = argMax(nextTokenLogits);
+                        generatedIds.add(nextTokenId);
 
-                    if (nextTokenId == eosTokenId) {
-                        break;
+                        if (nextTokenId == eosTokenId) {
+                            break;
+                        }
+
+                        decoderInputIds.add(nextTokenId);
                     }
-
-                    decoderInputIds.add(nextTokenId);
                 }
-
             }
         }
 

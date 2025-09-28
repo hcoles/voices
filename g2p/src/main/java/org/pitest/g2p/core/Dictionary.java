@@ -106,8 +106,7 @@ public class Dictionary {
 
         @Override
         public boolean equals(Object o) {
-            if (!(o instanceof POSVariant)) return false;
-            POSVariant that = (POSVariant) o;
+            if (!(o instanceof POSVariant that)) return false;
             return Objects.equals(pos, that.pos) && Objects.equals(word, that.word);
         }
 
