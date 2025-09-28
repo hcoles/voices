@@ -12,7 +12,7 @@ An easy-to-use local text to speech library for Java.
 
 It can produce reasonable quality audio using low-specced hardware.
 
-It provides three main components
+It provides four main components
 
 * Code to retrieve and run the voice models from the [piper](https://github.com/rhasspy/piper) project
 * A piper-compatible pure Java phonemizer for English partially ported from [phonemize](https://github.com/hans00/phonemize)
