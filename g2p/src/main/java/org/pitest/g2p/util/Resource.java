@@ -1,7 +1,5 @@
 package org.pitest.g2p.util;
 
-import org.pitest.g2p.core.Dictionary;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,8 +11,16 @@ import java.util.stream.Collectors;
 
 public class Resource {
 
+    public static byte[] readAsBytes(String resource) {
+        try (InputStream is = readAsStream(resource)) {
+            return is.readAllBytes();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
     public static List<String> read(String resource) {
-        try (InputStream is = Dictionary.class.getResourceAsStream(resource);
+        try (InputStream is = readAsStream(resource);
              InputStreamReader inputStreamReader = new InputStreamReader(is, StandardCharsets.UTF_8);
              BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
             return bufferedReader.lines()
@@ -27,7 +33,7 @@ public class Resource {
     public static InputStream readAsStream(String resource) {
         var stream = Resource.class.getResourceAsStream(resource);
         if (stream == null) {
-            throw new RuntimeException("Could not find resource " + resource);
+            throw new IllegalStateException("Could not find resource " + resource);
         }
         return stream;
     }

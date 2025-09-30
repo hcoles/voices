@@ -2,7 +2,6 @@ package org.pitest.voices;
 
 import org.pitest.g2p.core.Language;
 
-import static org.pitest.voices.Models.defaultPauses;
 import static org.pitest.voices.Models.url;
 
 public class NonEnglishModels {
@@ -16,11 +15,10 @@ public class NonEnglishModels {
     }
 
     private static Model sherpaModel(String name, Language lang, float gain) {
-        return new Model(name,
+        return new FileModel(name,
                 "vits-piper-" + name,
                 lang,
-                new ModelDownloader(url("https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-piper-" + name + ".tar.bz2")),
-                defaultPauses(), gain, ModelParameters.defaultParams()
-        );
+                new ModelDownloader(url("https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-piper-" + name + ".tar.bz2"))
+                , gain );
     }
 }

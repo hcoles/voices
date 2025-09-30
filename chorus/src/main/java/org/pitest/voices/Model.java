@@ -3,97 +3,54 @@ package org.pitest.voices;
 import org.pitest.g2p.core.Language;
 
 import java.io.IOException;
-import java.nio.file.Files;
+
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
-import java.util.List;
 
-public class Model {
+/**
+ * Piper tts model
+ */
+public interface Model {
 
-    private final String name;
-    private final String location;
-    private final Language lang;
+    /**
+     * Unique id
+     * @return an id
+     */
+    String id();
 
-    private final ModelFetcher resolver;
+    /**
+     * Language model speaks
+     * @return A language instance
+     */
+    Language language();
 
-    private final List<Pause> pauses;
-    private final float gain;
+    /**
+     * Creates a variation of the model with a different language
+     * @param lang Language to use
+     * @return a new model instance
+     */
+    Model withLanguage(Language lang);
 
-    private final ModelParameters params;
+    /**
+     * The model in bytes
+     * @param cacheBase Directory currently used by Voices for any caches
+     * @return Model as bytes
+     * @throws IOException in event of error
+     */
+    byte[] byteBuffer(Path cacheBase) throws IOException;
 
-    public Model(String name,
-                 String location,
-                 Language lang,
-                 ModelFetcher resolver,
-                 List<Pause> pauses,
-                 float gain,
-                 ModelParameters params) {
-        this.name = name;
-        this.location = location;
-        this.lang = lang;
-        this.resolver = resolver;
-        this.pauses = pauses;
-        this.gain = gain;
-        this.params = params;
-    }
+    /**
+     * The model config
+     * @param cacheBase Directory currently used by Voices for any caches
+     * @return Model config
+     * @throws IOException in event of error
+     */
+    ModelConfig resolveConfig(Path cacheBase) throws IOException;
 
-    public String name() {
-        return name;
-    }
-
-    public Language language() {
-        return lang;
-    }
-
-    public Model withLanguage(Language lang) {
-        return new Model(name, location, lang, resolver, pauses, gain, params);
-    }
-
-    public Path resolve(Path cacheBase) throws IOException {
-        return resolveFiles(cacheBase).resolve(onnx());
-    }
-
-    public ModelConfig resolveConfig(Path cacheBase) throws IOException {
-        Path json = resolveFiles(cacheBase).resolve(onnx() + ".json");
-        try(var in = Files.newInputStream(json, StandardOpenOption.READ)) {
-            return ModelConfig.fromJson(in);
-        }
-    }
-
-    public Path fetch() throws IOException {
-        return resolver.fetch().resolve(location);
-    }
-
-    public List<Pause> defaultPauses() {
-        return pauses;
-    }
-
-    String onnx() {
-        return name + ".onnx";
-    }
-
-
-    String id() {
-        return name;
-    }
-
-    public float defaultGain() {
-        return gain;
-    }
-
-    public ModelParameters defaultParams() {
-        return params;
-    }
-
-    private Path resolveFiles(Path cacheBase) throws IOException {
-        Path location = cacheBase.resolve(this.location);
-        Path onnx = location.resolve(onnx());
-        if (!Files.exists(onnx)) {
-            Path tempLocation = fetch();
-            Files.move(tempLocation, location);
-        }
-        return location;
-    }
-
+    /**
+     * Default gain to use with this model. Useful as some models
+     * appear much louder or quieter than others
+     * @return float representing the default gain
+     */
+    float defaultGain();
 
 }

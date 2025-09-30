@@ -11,7 +11,9 @@ import java.nio.file.Path;
 import java.util.function.Supplier;
 
 public class OpenVoiceSupplier implements G2PModelSupplier {
+
     private final ONNXModel model;
+
 
     public OpenVoiceSupplier() {
         this(new ONNXModel(URLModelFetcher.fromString("https://huggingface.co/OpenVoiceOS/g2p-mbyt5-12l-ipa-childes-espeak-onnx/resolve/main/fdemelo_g2p-mbyt5-12l-ipa-childes-espeak.onnx"),
@@ -26,7 +28,8 @@ public class OpenVoiceSupplier implements G2PModelSupplier {
     public G2PModel create(Supplier<OrtSession.SessionOptions> options, Dictionary dictionary, OrtEnvironment env, Path base) {
         try {
             Path onnx = model.resolve(base);
-            var session = env.createSession(onnx.toString(), options.get());
+            var opts = options.get();
+            var session = env.createSession(onnx.toString(), opts);
             return new OpenVoiceModel(dictionary, session, env);
         } catch (Exception e) {
             throw new RuntimeException(e);

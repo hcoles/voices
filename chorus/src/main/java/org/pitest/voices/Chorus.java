@@ -27,6 +27,9 @@ public class Chorus implements AutoCloseable {
     // lazily initialised
     private G2PModel g2p;
 
+    // lazily initialised, held only to allow closing
+    private OrtSession.SessionOptions opts;
+
     public Chorus(Dictionary dictionary) {
         this(new ChorusConfig(dictionary));
     }
@@ -43,8 +46,8 @@ public class Chorus implements AutoCloseable {
                 phonemizer,
                 conf.trace(),
                 session,
-                model.defaultPauses(),
-                model.defaultParams(),
+                Pause.defaultPauses(),
+                ModelParameters.defaultParams(),
                 model.defaultGain());
     }
 
@@ -59,17 +62,17 @@ public class Chorus implements AutoCloseable {
     private VoiceSession loadVoice(Model model) {
         try {
             Files.createDirectories(conf.base());
-            return loadPiperModel(model, model.resolve(conf.base()));
+            return loadPiperModel(model);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private VoiceSession loadPiperModel(Model model, Path onnx) {
+    private VoiceSession loadPiperModel(Model model) {
         OrtEnvironment env = OrtEnvironment.getEnvironment();
         try {
             var options = configureSession();
-            var session = env.createSession(onnx.toString(), options);
+            var session = env.createSession(model.byteBuffer(conf.base()), options);
             return new VoiceSession(env, model.resolveConfig(conf.base()), session);
         } catch (IOException | OrtException e) {
             throw new RuntimeException(e);
@@ -77,9 +80,9 @@ public class Chorus implements AutoCloseable {
     }
 
     private OrtSession.SessionOptions configureSession() {
-            OrtSession.SessionOptions options = new OrtSession.SessionOptions();
-            conf.cudaOptions().accept(options);
-            return options;
+        OrtSession.SessionOptions options = new OrtSession.SessionOptions();
+        conf.cudaOptions().accept(options);
+        return options;
     }
 
     @Override
@@ -95,6 +98,14 @@ public class Chorus implements AutoCloseable {
         if (g2p != null) {
             try {
                 g2p.close();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        if (opts != null) {
+            try {
+                opts.close();
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

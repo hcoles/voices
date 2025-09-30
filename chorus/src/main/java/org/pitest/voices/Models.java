@@ -3,7 +3,6 @@ package org.pitest.voices;
 import org.pitest.g2p.core.Language;
 
 import java.net.URL;
-import java.util.List;
 
 public class Models {
 
@@ -33,19 +32,11 @@ public class Models {
     }
 
     private static Model sherpaModel(String name, float gain) {
-        return new Model(name,
+        return new FileModel(name,
                 "vits-piper-" + name,
                 Language.en_GB,
                 new ModelDownloader(url("https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-piper-" + name + ".tar.bz2")),
-                defaultPauses(), gain, ModelParameters.defaultParams()
-        );
-    }
-
-    public static List<Pause> defaultPauses() {
-        return List.of(new Pause("—", 3),
-                new Pause("–", 2),
-                new Pause(":", 2)
-        );
+                gain);
     }
 
     static URL url(String url) {
