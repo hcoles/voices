@@ -32,7 +32,7 @@ class VoiceSession implements AutoCloseable {
         return config.phonemeIdMap().get(phoneme);
     }
 
-    Audio sayPhonemes(long[] phoneme_ids, float gain, ModelParameters params) {
+    Audio sayPhonemes(int sid, long[] phoneme_ids, float gain, ModelParameters params) {
         long[][] shapedPhonemeIds = new long[][]{phoneme_ids};
         long[] phoneme_id_lengths = new long[]{phoneme_ids.length};
         try(var scales = OnnxTensor.createTensor(env, new float[]{params.noiseScale(),
@@ -44,6 +44,9 @@ class VoiceSession implements AutoCloseable {
             inputsMap.put("scales",scales );
             inputsMap.put("input", input);
             inputsMap.put("input_lengths", inputLengths);
+            if (sid != -1) {
+                inputsMap.put("sid", OnnxTensor.createTensor(env, new long[]{sid}));
+            }
 
             try (OrtSession.Result result = session.run(inputsMap)) {
                 Optional<OnnxValue> v = result.get("output");

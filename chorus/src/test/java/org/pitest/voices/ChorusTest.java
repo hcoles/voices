@@ -28,7 +28,7 @@ class ChorusTest {
     void someWords() {
 
         try (Chorus chorus = new Chorus(config)) {
-            Voice v1 = chorus.voice(Models.albaMedium());
+            Voice v1 = chorus.voice(Models.aru(4));
 
             Audio audio = v1.say("A rainbow is a meteorological phenomenon that is caused by reflection, " +
                     "refraction and dispersion of light in water droplets resulting in a spectrum of light appearing in the sky.");

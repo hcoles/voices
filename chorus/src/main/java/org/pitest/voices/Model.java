@@ -13,6 +13,7 @@ public class Model {
     private final String name;
     private final String location;
     private final Language lang;
+    private final int sid;
 
     private final ModelFetcher resolver;
 
@@ -24,6 +25,7 @@ public class Model {
     public Model(String name,
                  String location,
                  Language lang,
+                 int sid,
                  ModelFetcher resolver,
                  List<Pause> pauses,
                  float gain,
@@ -31,6 +33,7 @@ public class Model {
         this.name = name;
         this.location = location;
         this.lang = lang;
+        this.sid = sid;
         this.resolver = resolver;
         this.pauses = pauses;
         this.gain = gain;
@@ -41,12 +44,16 @@ public class Model {
         return name;
     }
 
+    public int sid() {
+        return sid;
+    }
+
     public Language language() {
         return lang;
     }
 
     public Model withLanguage(Language lang) {
-        return new Model(name, location, lang, resolver, pauses, gain, params);
+        return new Model(name, location, lang, sid, resolver, pauses, gain, params);
     }
 
     public Path resolve(Path cacheBase) throws IOException {
