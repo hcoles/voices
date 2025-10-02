@@ -65,7 +65,7 @@ public class FileModel implements Model {
     }
 
     @Override
-    public byte[] byteBuffer(Path cacheBase) throws IOException {
+    public byte[] asBytes(Path cacheBase) throws IOException {
         return Files.readAllBytes(resolveFiles(cacheBase).resolve(onnx()));
     }
 

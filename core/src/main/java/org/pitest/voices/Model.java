@@ -39,7 +39,7 @@ public interface Model {
      * @return Model as bytes
      * @throws IOException in event of error
      */
-    byte[] byteBuffer(Path cacheBase) throws IOException;
+    byte[] asBytes(Path cacheBase) throws IOException;
 
     /**
      * The model config

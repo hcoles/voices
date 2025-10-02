@@ -71,7 +71,7 @@ public class Chorus implements AutoCloseable {
         OrtEnvironment env = OrtEnvironment.getEnvironment();
         try {
             var options = configureSession();
-            var session = env.createSession(model.byteBuffer(conf.base()), options);
+            var session = env.createSession(model.asBytes(conf.base()), options);
             return new VoiceSession(env, model.resolveConfig(conf.base()), session);
         } catch (IOException | OrtException e) {
             throw new RuntimeException(e);

@@ -21,7 +21,7 @@ class AlbaTest {
 
     @Test
     void loadsResources() throws IOException {
-        assertThat(underTest.byteBuffer(unused())).hasSizeGreaterThan(50000);
+        assertThat(underTest.asBytes(unused())).hasSizeGreaterThan(50000);
         assertThat(underTest.resolveConfig(unused()).sampleRate()).isEqualTo(22050L);
     }
 

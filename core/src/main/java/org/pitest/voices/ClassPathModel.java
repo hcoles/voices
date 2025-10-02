@@ -23,7 +23,7 @@ public class ClassPathModel implements Model {
     }
 
     @Override
-    public byte[] byteBuffer(Path cacheBase) {
+    public byte[] asBytes(Path cacheBase) {
         return Resource.readAsBytes(resource);
     }
 

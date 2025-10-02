@@ -88,7 +88,7 @@ class UsModelsTest {
     }
 
     private void checkModel(Model model) throws IOException {
-        assertThat(model.byteBuffer(cache)).hasSizeGreaterThan(ARBITRARY_SIZE);
+        assertThat(model.asBytes(cache)).hasSizeGreaterThan(ARBITRARY_SIZE);
         assertThat(model.resolveConfig(cache).sampleRate()).isEqualTo(22050L);
         assertThat(model.language()).isEqualTo(Language.en_US);
     }
