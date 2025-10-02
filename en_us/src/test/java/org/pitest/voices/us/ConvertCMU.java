@@ -1,6 +1,6 @@
 package org.pitest.voices.us;
 
-import org.pitest.g2p.core.Dictionary;
+import org.pitest.voices.g2p.core.Dictionary;
 import org.pitest.voices.ChorusConfig;
 import org.pitest.voices.util.Fetch;
 

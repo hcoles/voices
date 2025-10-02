@@ -3,11 +3,11 @@ package org.pitest.voices.openvoice;
 import ai.onnxruntime.OrtEnvironment;
 import ai.onnxruntime.OrtException;
 import ai.onnxruntime.OrtSession;
-import org.pitest.g2p.core.Dictionary;
-import org.pitest.g2p.core.G2PModel;
-import org.pitest.g2p.core.pos.Pos;
-import org.pitest.g2p.core.tracing.Trace;
-import org.pitest.g2p.core.Language;
+import org.pitest.voices.Language;
+import org.pitest.voices.g2p.core.Dictionary;
+import org.pitest.voices.g2p.core.G2PModel;
+import org.pitest.voices.g2p.core.pos.Pos;
+import org.pitest.voices.g2p.core.tracing.Trace;
 
 public class OpenVoiceModel implements G2PModel {
 

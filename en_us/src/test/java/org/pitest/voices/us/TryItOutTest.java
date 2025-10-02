@@ -2,12 +2,12 @@ package org.pitest.voices.us;
 
 
 import org.junit.jupiter.api.Test;
-import org.pitest.g2p.core.tracing.LoggingTrace;
-import org.pitest.g2p.util.Resource;
+import org.pitest.voices.alba.Alba;
+import org.pitest.voices.bryce.Bryce;
+import org.pitest.voices.g2p.core.tracing.LoggingTrace;
+import org.pitest.voices.Resource;
 import org.pitest.voices.Chorus;
 import org.pitest.voices.ChorusConfig;
-import org.pitest.voices.Models;
-import org.pitest.voices.UsModels;
 import org.pitest.voices.Voice;
 import org.pitest.voices.audio.Audio;
 
@@ -22,7 +22,7 @@ public class TryItOutTest {
     @Test
     void gibson() {
         try (Chorus chorus = new Chorus(config)) {
-            Voice v1 = chorus.voice(UsModels.bryceMedium()).withLengthScale(0.7f);
+            Voice v1 = chorus.voice(Bryce.bryceMedium()).withLengthScale(0.7f);
             var audio = v1.say("The sky above the port was the color of television, tuned to a dead channel.");
             play(audio);
         }
@@ -31,7 +31,7 @@ public class TryItOutTest {
     @Test
     void huckleberryFinn() {
         try (Chorus chorus = new Chorus(config)) {
-            Voice v1 = chorus.voice(Models.albaMedium()).withLengthScale(0.5f);
+            Voice v1 = chorus.voice(Alba.albaMedium()).withLengthScale(0.5f);
 
             String text = String.join("\n", Resource.read("/samples/huckleberry_finn.md"));
             Audio audio = v1.say(text);
@@ -42,7 +42,7 @@ public class TryItOutTest {
     @Test
     void aWord() {
         try (Chorus chorus = new Chorus(config)) {
-            Voice v1 = chorus.voice(Models.albaMedium());
+            Voice v1 = chorus.voice(Alba.albaMedium());
             Audio audio = v1.say("abbreviated");
             play(audio);
         }
@@ -51,7 +51,7 @@ public class TryItOutTest {
     @Test
     void someWords() {
         try (Chorus chorus = new Chorus(config)) {
-            Voice v1 = chorus.voice(Models.albaMedium());
+            Voice v1 = chorus.voice(Alba.albaMedium());
             Audio audio = v1.say("usurped\n" +
                     "usurping\n" +
                     "usurps\n" +
@@ -98,7 +98,7 @@ public class TryItOutTest {
     void homographs() {
 
         try (Chorus chorus = new Chorus(config)) {
-            Voice v1 = chorus.voice(Models.albaMedium());
+            Voice v1 = chorus.voice(Alba.albaMedium());
 
             Audio audio = v1.say(
                     "invalid response for an invalid. " +

@@ -43,6 +43,19 @@
             <version>${project.parent.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.pitest.voices</groupId>
+            <artifactId>alba</artifactId>
+            <version>${project.parent.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.pitest.voices</groupId>
+            <artifactId>bryce</artifactId>
+            <version>${project.parent.version}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.pitest.voices</groupId>
             <artifactId>chorus</artifactId>

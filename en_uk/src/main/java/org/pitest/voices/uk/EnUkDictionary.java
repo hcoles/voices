@@ -1,8 +1,8 @@
 package org.pitest.voices.uk;
 
-import org.pitest.g2p.core.Dictionary;
+import org.pitest.voices.g2p.core.Dictionary;
 
-import static org.pitest.g2p.util.Resource.read;
+import static org.pitest.voices.Resource.read;
 
 public class EnUkDictionary {
     public static Dictionary en_uk() {

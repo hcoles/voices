@@ -12,12 +12,14 @@ An easy-to-use local text to speech library for Java.
 
 It can produce reasonable quality audio using low-specced hardware.
 
-It provides four main components
+It provides several components
 
-* Code to retrieve and run the voice models from the [piper](https://github.com/rhasspy/piper) project
+* Code to run the voice models from the [piper](https://github.com/rhasspy/piper) project
 * A piper-compatible pure Java phonemizer for English partially ported from [phonemize](https://github.com/hans00/phonemize)
 * Compatible phoneme dictionaries for uk and us English
 * A multi-lingual phonemizer using the [onnx model](https://huggingface.co/OpenVoiceOS/g2p-mbyt5-12l-ipa-childes-espeak-onnx) from OpenVoiceOs 
+* A small number of piper models available as dependencies on maven central
+* Code to download other models not uploaded to central
 
 The models are run using the onnxruntime library, so can utilise both CPU and GPU.
 
@@ -25,22 +27,28 @@ The models are run using the onnxruntime library, so can utilise both CPU and GP
 
 See [Releases](https://github.com/hcoles/voices/releases)
 
-## English-Only Usage
+## English-Only Usage With Rules Based Phonemizer
 
-Using Voices requires three dependencies
+Using Voices requires three code dependencies and one or more models.
 
 ```xml
 <!-- main dependency -->
 <dependency>
     <groupId>org.pitest.voices</groupId>
     <artifactId>chorus</artifactId>
-    <version>0.0.4</version>
+    <version>0.0.5</version>
+</dependency>
+<!-- a prepackaged model -->
+<dependency>
+    <groupId>org.pitest.voices</groupId>
+    <artifactId>alba</artifactId>
+    <version>0.0.5</version>
 </dependency>
 <!-- dictionary of pronunciations -->
 <dependency>
     <groupId>org.pitest.voices</groupId>
     <artifactId>en_uk</artifactId> <!-- or en_us -->
-    <version>0.0.4</version>
+    <version>0.0.5</version>
 </dependency>
 <!-- runtime for onnx models -->
 <dependency>
@@ -50,7 +58,7 @@ Using Voices requires three dependencies
 </dependency>
 ```
 
-Technically, Voices can be used without a dictionary, but the quality of the speech would be poor.
+Technically, the rules based phonemizer can be used without a dictionary, but the quality of the speech would be poor.
 
 The `Chorus` class acts as a manager for voice models, handling loading and freeing of resources. Loading is an expensive
 operation, so it is recommended to keep a single instance of `Chorus` for the lifetime of your application.
@@ -58,16 +66,32 @@ operation, so it is recommended to keep a single instance of `Chorus` for the li
 ```java
 ChorusConfig config = chorusConfig(EnUkDictionary.en_uk());
 try (Chorus chorus = new Chorus(config)) {
-    Voice alba = chorus.voice(Models.albaMedium());
-    Voice jenny = chorus.voice(Models.jennyDiocoMedium());
-  
-    Audio audio = alba.say("Hello there, I'm vaguely Scottish");
-    audio = audio.append(jenny.say("I'm not."));
-    audio = audio.append(alba.withGain(0.5f).say("I am much quieter"));
-            
+    Voice alba = chorus.voice(Alba.albaMedium());
+
+    Audio audio = alba.say("Hello there, I'm vaguely Scottish.");
     audio.save(some path);
 }
 ```
+
+The example above uses a model retrieved at build time as a normal maven dependency.
+
+A wider range of models can be retrieved at runtime by adding the model downloader dependency. 
+
+```xml
+<dependency>
+    <groupId>org.pitest.voices</groupId>
+    <artifactId>model-downloader</artifactId>
+    <version>0.0.5</version>
+</dependency>
+```
+
+Models can be retrieved using the factory methods on the
+
+* org.pitest.voices.download.Models
+* org.pitest.voices.download.UsModels
+* org.pitest.voices.download.NonEnglishModels
+
+Classes.
 
 By default, voice models are downloaded to `~/.cache/voices/`, but this can be configured in ChorusConfig.
 

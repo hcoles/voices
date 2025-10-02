@@ -3,11 +3,11 @@ package org.pitest.voices.openvoice;
 import ai.onnxruntime.OrtEnvironment;
 import ai.onnxruntime.OrtSession;
 import org.junit.jupiter.api.Test;
-import org.pitest.g2p.core.Dictionary;
-import org.pitest.g2p.core.G2PModel;
-import org.pitest.g2p.core.Language;
-import org.pitest.g2p.core.pos.Pos;
-import org.pitest.g2p.core.tracing.Trace;
+import org.pitest.voices.Language;
+import org.pitest.voices.g2p.core.Dictionary;
+import org.pitest.voices.g2p.core.G2PModel;
+import org.pitest.voices.g2p.core.pos.Pos;
+import org.pitest.voices.g2p.core.tracing.Trace;
 
 import java.nio.file.Path;
 

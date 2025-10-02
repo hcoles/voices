@@ -26,17 +26,15 @@
 
         <dependency>
             <groupId>org.pitest.voices</groupId>
-            <artifactId>g2p</artifactId>
+            <artifactId>chorus</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.pitest.voices</groupId>
-            <artifactId>chorus</artifactId>
-            <version>${project.parent.version}</version>
+            <artifactId>openvoice-model</artifactId>
+            <version>${models.version}</version>
         </dependency>
-
-
         <dependency>
             <groupId>com.microsoft.onnxruntime</groupId>
             <artifactId>onnxruntime</artifactId>
@@ -49,7 +47,12 @@
             <artifactId>slf4j-simple</artifactId>
             <version>2.0.16</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.pitest.voices</groupId>
+            <artifactId>alba</artifactId>
+            <version>${project.parent.version}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.pitest.voices</groupId>
             <artifactId>chorus</artifactId>

@@ -1,11 +1,11 @@
 package org.pitest.voices.dictionary;
 
-import org.pitest.g2p.core.Dictionary;
-import org.pitest.g2p.core.EnglishModel;
-import org.pitest.g2p.core.Language;
-import org.pitest.g2p.core.PiperPhonemizer;
-import org.pitest.g2p.core.pos.Pos;
-import org.pitest.g2p.core.tracing.Trace;
+import org.pitest.voices.Language;
+import org.pitest.voices.g2p.core.Dictionary;
+import org.pitest.voices.g2p.core.EnglishModel;
+import org.pitest.voices.g2p.core.PiperPhonemizer;
+import org.pitest.voices.g2p.core.pos.Pos;
+import org.pitest.voices.g2p.core.tracing.Trace;
 import org.pitest.voices.ChorusConfig;
 
 import java.io.IOException;

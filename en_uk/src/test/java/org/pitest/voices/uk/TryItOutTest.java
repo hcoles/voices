@@ -1,11 +1,12 @@
 package org.pitest.voices.uk;
 
 import org.junit.jupiter.api.Test;
-import org.pitest.g2p.core.tracing.LoggingTrace;
-import org.pitest.g2p.util.Resource;
+import org.pitest.voices.alba.Alba;
+import org.pitest.voices.cori.Cori;
+import org.pitest.voices.g2p.core.tracing.LoggingTrace;
+import org.pitest.voices.Resource;
 import org.pitest.voices.Chorus;
 import org.pitest.voices.ChorusConfig;
-import org.pitest.voices.Models;
 import org.pitest.voices.Pause;
 import org.pitest.voices.Voice;
 import org.pitest.voices.audio.Audio;
@@ -23,7 +24,7 @@ public class TryItOutTest {
     @Test
     void orwell() {
         try (Chorus chorus = new Chorus(config)) {
-            Voice v1 = chorus.voice(Models.albaMedium());
+            Voice v1 = chorus.voice(Alba.albaMedium());
             var audio = v1.say("It was a bright cold day in April, and the clocks were striking thirteen.");
             play(audio);
         }
@@ -32,7 +33,7 @@ public class TryItOutTest {
     @Test
     void mobyDick() {
         try (Chorus chorus = new Chorus(config)) {
-            Voice v1 = chorus.voice(Models.albaMedium());
+            Voice v1 = chorus.voice(Alba.albaMedium());
 
             String text = String.join("\n", Resource.read("/samples/moby_dick.md"));
             Audio audio = v1.say(text);
@@ -41,21 +42,9 @@ public class TryItOutTest {
     }
 
     @Test
-    void aWord() {
-        try (Chorus chorus = new Chorus(config)) {
-            Voice v1 = chorus.voice(Models.albaMedium());
-            Voice v2 = chorus.voice(Models.alanMedium());
-            Voice v3 = chorus.voice(Models.northernEnglishMale());
-            play(v1.say("abbreviated"));
-            play(v2.say("abbreviated"));
-            play(v3.say("abbreviated"));
-        }
-    }
-
-    @Test
     void wutheringHeights() {
         try (Chorus chorus = new Chorus(config)) {
-            Voice v1 = chorus.voice(Models.coriHigh())
+            Voice v1 = chorus.voice(Cori.coriHigh())
                     .withPauses(List.of(new Pause(",", 6)));
             String text = String.join("\n", Resource.read("/samples/wuthering_heights.md"));
             Audio audio = v1.say(text);
@@ -66,7 +55,7 @@ public class TryItOutTest {
     @Test
     void dashes() {
         try (Chorus chorus = new Chorus(config)) {
-            Voice v1 = chorus.voice(Models.albaMedium());
+            Voice v1 = chorus.voice(Alba.albaMedium());
 
             Audio audio = v1.say("It wasn't meant for visitors like this one---low and insignificant.");
             play(audio);
@@ -78,7 +67,7 @@ public class TryItOutTest {
     void homographs() {
 
         try (Chorus chorus = new Chorus(config)) {
-            Voice v1 = chorus.voice(Models.albaMedium());
+            Voice v1 = chorus.voice(Alba.albaMedium());
 
             Audio audio = v1.say(
                     "invalid response for an invalid. " +
@@ -100,7 +89,7 @@ public class TryItOutTest {
     @Test
     void rainbows() {
         try (Chorus chorus = new Chorus(config)) {
-            Voice v1 = chorus.voice(Models.albaMedium());
+            Voice v1 = chorus.voice(Alba.albaMedium());
             Audio audio = v1.say("A rainbow is a meteorological phenomenon that is caused by reflection, " +
                     "refraction and dispersion of light in water droplets resulting in a spectrum of light appearing in the sky.");
 
@@ -112,7 +101,7 @@ public class TryItOutTest {
     void hyphens() {
 
         try (Chorus chorus = new Chorus(config)) {
-            Voice v1 = chorus.voice(Models.albaMedium());
+            Voice v1 = chorus.voice(Alba.albaMedium());
             Audio audio = v1.say("anti-theft---a security term---device");
             play(audio);
         }
@@ -123,12 +112,12 @@ public class TryItOutTest {
     void normalise() {
         String text = "This is a sentence";
         try (Chorus chorus = new Chorus(config)) {
-            Voice v1 = chorus.voice(Models.albaMedium());
+            Voice v1 = chorus.voice(Alba.albaMedium());
             Audio reference = v1.say(text);
             float max = reference.max();
 
             for (float gain = 0.7f; gain < 5.0f; gain += 0.1f) {
-                var v2 = chorus.voice(Models.coriHigh())
+                var v2 = chorus.voice(Cori.coriHigh())
                         .withGain(gain)
                         .say(text);
                 System.out.println("Testing gain " + gain + " for max " + max + " got " + v2.max());

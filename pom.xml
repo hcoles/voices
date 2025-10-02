@@ -17,6 +17,8 @@
     <!-- this revision number used only for local builds, release version is taken from release branch name -->
     <revision>dev-SNAPSHOT</revision>
 
+    <!-- piper models are loaded to maven central separately from the main project -->
+    <models.version>0.0.1</models.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <git.repository>hcoles/voices</git.repository>
@@ -272,10 +274,16 @@
 
   <modules>
     <module>g2p</module>
+    <module>core</module>
+    <module>alba</module>
+    <module>bryce</module>
+    <module>cori</module>
     <module>chorus</module>
+    <module>model_downloader</module>
     <module>en_uk</module>
     <module>en_us</module>
     <module>openvoice</module>
+
   </modules>
 
 
