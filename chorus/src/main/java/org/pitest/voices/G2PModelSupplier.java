@@ -2,8 +2,8 @@ package org.pitest.voices;
 
 import ai.onnxruntime.OrtEnvironment;
 import ai.onnxruntime.OrtSession;
-import org.pitest.g2p.core.Dictionary;
-import org.pitest.g2p.core.G2PModel;
+import org.pitest.voices.g2p.core.Dictionary;
+import org.pitest.voices.g2p.core.G2PModel;
 
 import java.nio.file.Path;
 import java.util.function.Supplier;

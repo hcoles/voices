@@ -2,9 +2,8 @@ package org.pitest.voices;
 
 import opennlp.tools.sentdetect.SentenceDetectorME;
 import opennlp.tools.sentdetect.SentenceModel;
-import org.pitest.g2p.core.PiperPhonemizer;
-import org.pitest.g2p.core.tracing.Trace;
-import org.pitest.g2p.util.Resource;
+import org.pitest.voices.g2p.core.PiperPhonemizer;
+import org.pitest.voices.g2p.core.tracing.Trace;
 import org.pitest.voices.audio.Audio;
 
 

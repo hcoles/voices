@@ -2,12 +2,12 @@ package org.pitest.voices;
 
 import ai.onnxruntime.OrtException;
 import ai.onnxruntime.OrtSession;
-import org.pitest.g2p.core.EnglishModel;
-import org.pitest.g2p.core.Dictionary;
-import org.pitest.g2p.core.Expansion;
-import org.pitest.g2p.core.expansions.NumberExpander;
-import org.pitest.g2p.core.syllables.RulesSyllabiliser;
-import org.pitest.g2p.core.tracing.Trace;
+import org.pitest.voices.g2p.core.EnglishModel;
+import org.pitest.voices.g2p.core.Dictionary;
+import org.pitest.voices.g2p.core.Expansion;
+import org.pitest.voices.g2p.core.expansions.NumberExpander;
+import org.pitest.voices.g2p.core.syllables.RulesSyllabiliser;
+import org.pitest.voices.g2p.core.tracing.Trace;
 
 import java.nio.file.Path;
 import java.util.List;

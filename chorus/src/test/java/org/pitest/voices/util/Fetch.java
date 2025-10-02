@@ -1,8 +1,5 @@
 package org.pitest.voices.util;
 
-import me.tongfei.progressbar.ProgressBar;
-import me.tongfei.progressbar.ProgressBarBuilder;
-
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
@@ -29,12 +26,10 @@ public class Fetch {
 
         URLConnection urlConn = url.openConnection();
         long size = urlConn.getContentLengthLong();
-        ProgressBarBuilder pbb = new ProgressBarBuilder();
-        pbb.setTaskName("Fetching ");
-        pbb.setInitialMax(size);
+
 
         ReadableByteChannel readableByteChannel = Channels
-                .newChannel(ProgressBar.wrap(urlConn.getInputStream(), pbb));
+                .newChannel(urlConn.getInputStream());
 
         try(FileOutputStream fileOutputStream = new FileOutputStream(archive.toFile())) {
             FileChannel fileChannel = fileOutputStream.getChannel();

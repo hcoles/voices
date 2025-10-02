@@ -29,7 +29,11 @@
             <artifactId>g2p</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.pitest.voices</groupId>
+            <artifactId>core</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>com.microsoft.onnxruntime</groupId>
@@ -41,6 +45,18 @@
         <dependency>
             <groupId>org.pitest.voices</groupId>
             <artifactId>chorus</artifactId>
+            <version>${project.parent.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.pitest.voices</groupId>
+            <artifactId>alba</artifactId>
+            <version>${project.parent.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.pitest.voices</groupId>
+            <artifactId>cori</artifactId>
             <version>${project.parent.version}</version>
             <scope>test</scope>
         </dependency>
