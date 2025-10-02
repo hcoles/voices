@@ -18,7 +18,7 @@
     <revision>dev-SNAPSHOT</revision>
 
     <!-- piper models are loaded to maven central separately from the main project -->
-    <models.version>dev-SNAPSHOT</models.version>
+    <models.version>0.0.1</models.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <git.repository>hcoles/voices</git.repository>
