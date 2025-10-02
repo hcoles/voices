@@ -1,5 +1,6 @@
 package org.pitest.voices.download;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.pitest.voices.ChorusConfig;
 import org.pitest.voices.Language;
@@ -11,6 +12,7 @@ import java.nio.file.Path;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Disabled("don't keep downloading models on each commit")
 class ModelsTest {
 
     static final int ARBITRARY_SIZE = 1000;
