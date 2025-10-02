@@ -15,6 +15,12 @@ public interface Model {
     String id();
 
     /**
+     * Speaker id
+     * @return speaker id or -1 if model doesn't support them
+     */
+    int sid();
+
+    /**
      * Language model speaks
      * @return A language instance
      */

@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class ModelsTest {
 
@@ -26,6 +25,12 @@ class ModelsTest {
     @Test
     void albaMedium() throws IOException {
         var model = Models.albaMedium();
+        checkModel(model);
+    }
+
+    @Test
+    void aruMedium() throws IOException {
+        var model = Models.aruMedium(1);
         checkModel(model);
     }
 

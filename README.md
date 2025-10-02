@@ -152,12 +152,19 @@ check they match your use case.
 
 ## Alternatives
 
+### Sherpa Onnx
+
 The [Sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx) project can also run piper models.
 
 At the point this project was initiated, sherpa was difficult to consume as it was not available from maven central and required 
 manual installation of native libraries. It also seemed to handle homographs poorly.
 
 This situation may have since improved.
+
+### Mary TTS
+
+[Mary TTS](https://github.com/marytts/marytts) is very mature and produces reasonable quality speech, however it sounds a little
+robotic by modern standards.
 
 ## Development
 

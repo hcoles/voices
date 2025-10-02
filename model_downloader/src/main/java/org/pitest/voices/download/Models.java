@@ -15,6 +15,10 @@ public class Models {
         return sherpaModel("en_GB-alba-medium", 2.0f);
     }
 
+    public static Model aruMedium(int sid) {
+        return sherpaModel("en_GB-aru-medium", sid,2.0f);
+    }
+    
     public static Model alanMedium() {
         return sherpaModel("en_GB-alan-medium", 0.8f);
     }
@@ -32,9 +36,14 @@ public class Models {
     }
 
     private static Model sherpaModel(String name, float gain) {
+        return sherpaModel(name, -1, gain);
+    }
+
+    private static Model sherpaModel(String name, int sid, float gain) {
         return new FileModel(name,
                 "vits-piper-" + name,
                 Language.en_GB,
+                sid,
                 new ModelDownloader(url("https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-piper-" + name + ".tar.bz2")),
                 gain);
     }

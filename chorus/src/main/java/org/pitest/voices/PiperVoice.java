@@ -70,7 +70,8 @@ class PiperVoice implements Voice {
 
     @Override
     public Audio sayPhonemes(long[] phoneme_ids) {
-       return session.sayPhonemes(phoneme_ids,
+       return session.sayPhonemes(model.sid(),
+               phoneme_ids,
                gain,
                params);
     }

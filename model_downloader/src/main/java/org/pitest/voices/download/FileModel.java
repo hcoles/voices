@@ -15,19 +15,30 @@ public class FileModel implements Model {
     private final String name;
     private final String location;
     private final Language lang;
+    private final int sid;
 
     private final ModelFetcher resolver;
 
     private final float gain;
 
     public FileModel(String name,
+                     String location,
+                     Language lang,
+                     ModelFetcher resolver,
+                     float gain) {
+        this(name, location,lang, -1, resolver, gain);
+    }
+
+    public FileModel(String name,
                  String location,
                  Language lang,
+                 int sid,
                  ModelFetcher resolver,
                  float gain) {
         this.name = name;
         this.location = location;
         this.lang = lang;
+        this.sid = sid;
         this.resolver = resolver;
         this.gain = gain;
     }
@@ -37,6 +48,12 @@ public class FileModel implements Model {
         return name;
     }
 
+
+    @Override
+    public int sid() {
+        return sid;
+    }
+
     @Override
     public Language language() {
         return lang;
@@ -44,7 +61,7 @@ public class FileModel implements Model {
 
     @Override
     public Model withLanguage(Language lang) {
-        return new FileModel(name, location, lang, resolver, gain);
+        return new FileModel(name, location, lang, sid, resolver, gain);
     }
 
     @Override

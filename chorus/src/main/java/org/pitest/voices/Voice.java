@@ -41,6 +41,7 @@ public interface Voice {
      */
     Voice withGain(float gain);
 
+
     /**
      * Produce a variation of this voice with a gain (volume) increased
      * by the given factor from the current one

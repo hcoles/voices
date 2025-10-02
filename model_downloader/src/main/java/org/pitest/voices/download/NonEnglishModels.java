@@ -20,6 +20,7 @@ public class NonEnglishModels {
         return new FileModel(name,
                 "vits-piper-" + name,
                 lang,
+                -1,
                 new ModelDownloader(url("https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-piper-" + name + ".tar.bz2"))
                 , gain );
     }
