@@ -109,15 +109,15 @@ Once the dependency has been added
 <dependency>
     <groupId>org.pitest.voices</groupId>
     <artifactId>openvoice-phonemizer</artifactId>
-    <version>0.0.4</version>
+    <version>0.0.6</version>
 </dependency>
 ```
 
 The phonemizer can be selected with
 
 ```java
-    ChorusConfig config = chorusConfig(Dictionary.empty())
-            .withModel(new OpenVoiceSupplier());
+ChorusConfig config = chorusConfig(Dictionary.empty())
+        .withModel(new OpenVoiceSupplier());
 ```
 
 ## Running on GPU
