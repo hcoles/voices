@@ -36,19 +36,19 @@ Using Voices requires three code dependencies and one or more models.
 <dependency>
     <groupId>org.pitest.voices</groupId>
     <artifactId>chorus</artifactId>
-    <version>0.0.5</version>
+    <version>0.0.6</version>
 </dependency>
 <!-- a prepackaged model -->
 <dependency>
     <groupId>org.pitest.voices</groupId>
     <artifactId>alba</artifactId>
-    <version>0.0.5</version>
+    <version>0.0.6</version>
 </dependency>
 <!-- dictionary of pronunciations -->
 <dependency>
     <groupId>org.pitest.voices</groupId>
     <artifactId>en_uk</artifactId> <!-- or en_us -->
-    <version>0.0.5</version>
+    <version>0.0.6</version>
 </dependency>
 <!-- runtime for onnx models -->
 <dependency>
@@ -81,7 +81,7 @@ A wider range of models can be retrieved at runtime by adding the model download
 <dependency>
     <groupId>org.pitest.voices</groupId>
     <artifactId>model-downloader</artifactId>
-    <version>0.0.5</version>
+    <version>0.0.6</version>
 </dependency>
 ```
 
