@@ -3,6 +3,7 @@ package org.pitest.voices.dictionary;
 import org.pitest.voices.g2p.core.Dictionary;
 import org.pitest.voices.Resource;
 import org.pitest.voices.ChorusConfig;
+import org.pitest.voices.g2p.core.dictionary.Dictionaries;
 import org.pitest.voices.util.Fetch;
 
 
@@ -27,7 +28,7 @@ import static org.pitest.voices.dictionary.ESpeakWrapper.extract;
 public class DictionaryGenerator {
 
     public static void main(String[] args) throws Exception {
-        Path baseDir = new ChorusConfig(Dictionary.empty()).base();
+        Path baseDir = new ChorusConfig(Dictionaries.empty()).base();
         Fetch fetch = new Fetch(baseDir);
 
        Path cmu = fetch.fetch(new URL("https://raw.githubusercontent.com/Alexir/CMUdict/refs/heads/master/cmudict-0.7b"), "cmudict.txt");
@@ -77,44 +78,11 @@ public class DictionaryGenerator {
         Path dict = baseDir.resolve("dictionary_gb.txt");
         generate(ESpeakWrapper.EspeakOptions.UK, words, dict);
 
-        addHomographs(dict, baseDir.resolve("voices_en_uk.dict"));
-
-
     }
 
-    private static void addHomographs(Path base, Path out) throws IOException {
-        Files.copy(base, out, StandardCopyOption.REPLACE_EXISTING);
-
-        List<String> lines = new ArrayList<>();
-
-        lines.add("abuse=ɐbjˈuːz|VB"); // hand generated
-        lines.add("read=ɹˈɛd|VBD"); //vbd despite what our test says
-        lines.add("live=lˈɪv|VB");
-        lines.add("lives=lˈɪvz|VB");
-        lines.add("desert=dˈəʊnt|VB");
-        lines.add("lead=lˈɛd|NN"); // hand crafted, for once the verb is the default form
-        lines.add("wind=wˈaɪnd|VBP|VB");
-        lines.add("winds=wˈaɪndz|VBP|VB");
-        lines.add("bow=bˌaʊ|VB");
-        lines.add("bows=bˌaʊz|VB");
-        lines.add("use=j'uːz|VB");
-        lines.add("sow=s'oʊ|VB");
-        lines.add("sow=s'aʊ|NN");
-        lines.add("sows=s'aʊz|NN");
-        lines.add("refuse=ɹˈɛfjuːs|NN");
-        lines.add("rebel=ɹɪbˈɛl|VB|VBP");
-        lines.add("rebels=ɹɪbˈɛlz|VB|VBP");
-        lines.add("moped=m'əʊpt|VBD");
-        lines.add("invalid=ɪnvəlɪd|NN");
-
-        Files.write(out, lines, StandardOpenOption.APPEND);
-
-        System.out.println("Dictionary is at " + out.toAbsolutePath());
-
-    }
 
     private static void appendFromGutenberg(Path wordList, int id) throws Exception {
-        Path baseDir = new ChorusConfig(Dictionary.empty()).base();
+        Path baseDir = new ChorusConfig(Dictionaries.empty()).base();
         Fetch fetch = new Fetch(baseDir);
         Path text = fetch.fetch(new URL(String.format("https://www.gutenberg.org/cache/epub/%d/pg%d.txt", id, id)), id + ".txt");
         Files.write(wordList, clean(text), StandardOpenOption.APPEND);
@@ -123,7 +91,7 @@ public class DictionaryGenerator {
     private static Dictionary generate(ESpeakWrapper.EspeakOptions options, List<String> words, Path out) throws IOException {
         if (Files.exists(out)) {
             System.err.println("Skipping " + out.toAbsolutePath() + " " + Files.getLastModifiedTime(out));
-            return Dictionary.fromFile(out);
+            return Dictionaries.fromFile(out);
         }
 
         long start = System.currentTimeMillis();
@@ -135,7 +103,7 @@ public class DictionaryGenerator {
                 .map(e -> e.getKey() + "=" + e.getValue())
                 .collect(Collectors.toList()));
 
-        return Dictionary.fromMap(dict);
+        return Dictionaries.fromMap(dict);
     }
 
     private static List<String> clean(Path path) throws IOException {

@@ -4,6 +4,7 @@ import org.pitest.voices.Language;
 import org.pitest.voices.g2p.core.Dictionary;
 import org.pitest.voices.g2p.core.EnglishModel;
 import org.pitest.voices.g2p.core.PiperPhonemizer;
+import org.pitest.voices.g2p.core.dictionary.Dictionaries;
 import org.pitest.voices.g2p.core.pos.Pos;
 import org.pitest.voices.g2p.core.tracing.Trace;
 import org.pitest.voices.ChorusConfig;
@@ -24,11 +25,49 @@ import static java.util.Collections.emptyList;
  */
 public class Homographs {
     public static void main(String[] args) throws IOException {
-        Path baseDir = new ChorusConfig(Dictionary.empty()).base();
-        Dictionary noHomophones = Dictionary.fromFile(baseDir.resolve("dictionary_gb.txt"));
+        Path baseDir = new ChorusConfig(Dictionaries.empty()).base();
+        Dictionary noHomophones = Dictionaries.fromFile(baseDir.resolve("dictionary_gb.txt"));
 
         List<Homograph> phrases = new ArrayList<>();
+
+        phrases.add(new Homograph("wound", "I wound it round.", "A wound."));
+
+        phrases.add(new Homograph("wicked", "The oil wicked.", "You're wicked."));
+
+        phrases.add(new Homograph("tear", "I tear the paper.", "a tear."));
+        phrases.add(new Homograph("tarry", "Don't tarry.", "A tarry rag."));
+
+        phrases.add(new Homograph("separate", "A separate cabin", "I separate the sheep"));
+
+        phrases.add(new Homograph("reject", "A reject", "I reject that"));
+
+        phrases.add(new Homograph("record", "A record", "I record the show"));
+
+        phrases.add(new Homograph("produce", "I produce.", "Some produce."));
+
+        phrases.add(new Homograph("object", "I object to that.", "An object"));
+
+        phrases.add(new Homograph("minute", "One minute.", "A minute amount of gold."));
+
+        phrases.add(new Homograph("learned", "I learned the rules", "The learned man."));
+
+        phrases.add(new Homograph("intimate", "intimate clothing", "what did you intimate?"));
+        phrases.add(new Homograph("house", "Your house", "We can house you"));
+
+        phrases.add(new Homograph("excuse", "You make an excuse", "I excuse you."));
+
+        phrases.add(new Homograph("dogged", "dogged determination", "I dogged your steps"));
+
+        phrases.add(new Homograph("entrance", "The entrance.", "You entrance me"));
+
+        phrases.add(new Homograph("bow", "I bow down", "A bow tie"));
+        phrases.add(new Homograph("analyses", "He analyses.", "The analyses."));
+        phrases.add(new Homograph("appropriate", "Not appropriate.", "I appropriate the building."));
+
+        phrases.add(new Homograph("articulate", "He is articulate", "I articulate"));
+
         phrases.add(new Homograph("abuse", "That is abuse.", "Abuse the dog."));
+        phrases.add(new Homograph("live", "Go live", "I live"));
 
         phrases.add(new Homograph("read", "I read books.", "What have you read today?"));
         phrases.add(new Homograph("advocate", "Advocate for it", "I am an Advocate"));
@@ -59,11 +98,11 @@ public class Homographs {
 
             var phonA = Arrays.stream(a.split(" "))
                     .filter(s -> s.startsWith(base.substring(0,1)))
-                    .findFirst().get();
+                    .findFirst().orElse(a);
 
             var phonB = Arrays.stream(b.split(" "))
                     .filter(s -> s.startsWith(base.substring(0,1)))
-                    .findFirst().get();
+                    .findFirst().orElse(b);
 
             PosFinder posFinder = new PosFinder(h.word);
             PiperPhonemizer pa = new PiperPhonemizer(new EnglishModel(noHomophones), emptyList(), posFinder);
@@ -81,13 +120,15 @@ public class Homographs {
 
                 if (!phonA.equals(base)) {
                     lines.add(String.format("lines.add(\"%s=%s|%s\")", h.word, phonA, posA));
+                    lines.add(String.format("lines.add(\"%s=%s\")", h.word, phonB));
                     System.out.printf("%s=%s|%s\n", h.word, phonA, posA);
                 } else {
                     lines.add(String.format("lines.add(\"%s=%s|%s\")", h.word, phonB, posB));
+                    lines.add(String.format("lines.add(\"%s=%s\")", h.word, phonA));
                     System.out.printf("%s=%s|%s\n", h.word, phonB, posB);
                 }
             } else {
-                System.out.printf("Same %s %s %s \n", phonA, posA, posB);
+                System.out.printf("Same %s %s %s %s \n", h.word, phonA, posA, posB);
             }
             System.out.println("-----------");
 

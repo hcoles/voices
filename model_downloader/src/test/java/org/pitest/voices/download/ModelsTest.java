@@ -5,6 +5,7 @@ import org.pitest.voices.ChorusConfig;
 import org.pitest.voices.Language;
 import org.pitest.voices.Model;
 import org.pitest.voices.g2p.core.Dictionary;
+import org.pitest.voices.g2p.core.dictionary.Dictionaries;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -14,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ModelsTest {
 
     static final int ARBITRARY_SIZE = 1000;
-    Path cache = ChorusConfig.chorusConfig(Dictionary.empty()).base();
+    Path cache = ChorusConfig.chorusConfig(Dictionaries.empty()).base();
 
     @Test
     void coriHigh() throws IOException {

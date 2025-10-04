@@ -5,6 +5,7 @@ import org.pitest.voices.ChorusConfig;
 import org.pitest.voices.Language;
 import org.pitest.voices.Model;
 import org.pitest.voices.g2p.core.Dictionary;
+import org.pitest.voices.g2p.core.dictionary.Dictionaries;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -13,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.pitest.voices.download.ModelsTest.ARBITRARY_SIZE;
 
 class UsModelsTest {
-    Path cache = ChorusConfig.chorusConfig(Dictionary.empty()).base();
+    Path cache = ChorusConfig.chorusConfig(Dictionaries.empty()).base();
 
     @Test
     void amyMedium() throws IOException {

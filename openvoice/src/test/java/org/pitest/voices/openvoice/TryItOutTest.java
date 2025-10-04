@@ -3,6 +3,7 @@ package org.pitest.voices.openvoice;
 import org.junit.jupiter.api.Test;
 import org.pitest.voices.alba.Alba;
 import org.pitest.voices.g2p.core.Dictionary;
+import org.pitest.voices.g2p.core.dictionary.Dictionaries;
 import org.pitest.voices.g2p.core.tracing.LoggingTrace;
 import org.pitest.voices.Resource;
 import org.pitest.voices.Chorus;
@@ -15,7 +16,7 @@ import static org.pitest.voices.util.Play.play;
 
 class TryItOutTest {
 
-    ChorusConfig config = chorusConfig(Dictionary.empty())
+    ChorusConfig config = chorusConfig(Dictionaries.empty())
             .withModel(new OpenVoiceSupplier())
             .withTrace(new LoggingTrace());
 

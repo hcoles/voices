@@ -2,6 +2,7 @@ package org.pitest.voices.g2p.core;
 
 import org.junit.jupiter.api.Test;
 import org.pitest.voices.Language;
+import org.pitest.voices.g2p.core.dictionary.Dictionaries;
 import org.pitest.voices.g2p.core.expansions.NumberExpander;
 import org.pitest.voices.g2p.core.tracing.Trace;
 
@@ -15,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class PiperPhonemizerTest {
 
     Language lang = Language.en_GB;
-    PiperPhonemizer underTest = new PiperPhonemizer(new EnglishModel(Dictionary.empty()), emptyList(), Trace.noTrace());
+    PiperPhonemizer underTest = new PiperPhonemizer(new EnglishModel(Dictionaries.empty()), emptyList(), Trace.noTrace());
 
     @Test
     void addsStartMarker() {
@@ -34,21 +35,21 @@ class PiperPhonemizerTest {
 
     @Test
     void handlesPossessives() {
-        PiperPhonemizer underTest = new PiperPhonemizer(new EnglishModel(Dictionary.fromMap(Map.of("harry's", "x")))
+        PiperPhonemizer underTest = new PiperPhonemizer(new EnglishModel(Dictionaries.fromMap(Map.of("harry's", "x")))
                 , emptyList(), Trace.noTrace());
         assertThat(underTest.toPhonemes(lang,"harry's")).contains("x");
     }
 
     @Test
     void handlesApostrophes() {
-        PiperPhonemizer underTest = new PiperPhonemizer(new EnglishModel(Dictionary.fromMap(Map.of("didn't", "x")))
+        PiperPhonemizer underTest = new PiperPhonemizer(new EnglishModel(Dictionaries.fromMap(Map.of("didn't", "x")))
                 , emptyList(), Trace.noTrace());
         assertThat(underTest.toPhonemes(lang,"didn't do it")).contains("x");
     }
 
     @Test
     void usesExpansions() {
-        PiperPhonemizer underTest = new PiperPhonemizer(new EnglishModel(Dictionary.empty())
+        PiperPhonemizer underTest = new PiperPhonemizer(new EnglishModel(Dictionaries.empty())
                 , List.of(new NumberExpander()), Trace.noTrace());
         String result = String.join("", underTest.toPhonemes(lang,"The year is 2025."));
         assertThat(result).contains("twɛnˈti twɛnˈti fɪˈv");
@@ -56,7 +57,7 @@ class PiperPhonemizerTest {
 
     @Test
     void handlesUppercase() {
-        PiperPhonemizer underTest = new PiperPhonemizer(new EnglishModel(Dictionary.empty())
+        PiperPhonemizer underTest = new PiperPhonemizer(new EnglishModel(Dictionaries.empty())
                 , emptyList(), Trace.noTrace());
         String result = String.join("", underTest.toPhonemes(lang,"HELLO WORLD"));
         assertThat(result).contains("həlˈəʊ wɔɹld");

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.pitest.voices.Language;
+import org.pitest.voices.g2p.core.dictionary.Dictionaries;
 import org.pitest.voices.g2p.core.pos.Pos;
 import org.pitest.voices.g2p.core.tracing.Trace;
 import org.pitest.voices.g2p.core.syllables.RulesSyllabiliser;
@@ -14,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class EnglishModelRulesTest {
 
     Language lang = Language.en_GB;
-    EnglishModel underTest = new EnglishModel(Dictionary.empty(), new RulesSyllabiliser());
+    EnglishModel underTest = new EnglishModel(Dictionaries.empty(), new RulesSyllabiliser());
 
 
     @ParameterizedTest

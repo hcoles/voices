@@ -23,7 +23,7 @@ public class OpenVoiceModel implements G2PModel {
     public String predict(Trace trace, Language lang, String word, Pos pos) {
         try {
             trace.start(word, pos);
-            var lookup = dictionary.get(word, pos);
+            var lookup = dictionary.get(word.toLowerCase(), pos);
             if (lookup.isPresent()) {
                 String phoneme = lookup.get();
                 trace.dictionaryHit(word, pos, phoneme);
