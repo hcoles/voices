@@ -140,7 +140,11 @@ class PiperVoice implements Voice {
     private Stream<String> breakWithPauseSymbols(String s) {
         // title
         if (s.startsWith("#")) {
-            return Stream.concat(Stream.of(s.replaceAll("#", "")), Stream.of(PAUSE_1_SEC));
+            String working = s;
+            if (!working.endsWith(".")) {
+                working = working + ".";
+            }
+            return Stream.concat(Stream.of(working.replaceAll("#", "")), Stream.of(PAUSE_1_SEC));
         }
 
         // section break

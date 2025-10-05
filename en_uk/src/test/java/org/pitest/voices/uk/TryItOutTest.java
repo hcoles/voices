@@ -122,6 +122,15 @@ public class TryItOutTest {
 
     }
 
+    @Test
+    void titles() {
+        try (Chorus chorus = new Chorus(config)) {
+            Voice v1 = chorus.voice(Alba.albaMedium());
+            Audio audio = v1.say("# Ezra.");
+            play(audio);
+        }
+    }
+
    // @Test
     void normalise() {
         String text = "This is a sentence";

@@ -97,6 +97,11 @@ public class ChorusConfig {
         return new ChorusConfig(base, dictionary, phonemeModel, trace, expansions, cudaOptions);
     }
 
+    public ChorusConfig withDictionary(Dictionary dictionary) {
+        return new ChorusConfig(base, dictionary, phonemeModel, trace, expansions, cudaOptions);
+    }
+
+
     private static Path defaultCacheDir() {
         String home = System.getProperty("user.home");
         return Path.of(home).resolve(".cache").resolve("voices");

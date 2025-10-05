@@ -49,5 +49,39 @@ class TryItOutTest {
         }
     }
 
+    @Test
+    void usingHomographDictionary() {
+
+        try (Chorus chorus = new Chorus(config.withDictionary(Dictionaries.englishHomographs()))) {
+            Voice v1 = chorus.voice(Alba.albaMedium());
+
+            Audio audio = v1.say(
+                    "I wound the bobbin. I have a wound " +
+                            "Don't tarry. A tarry rag. " +
+                            "I separate the sheep into separate pens. " +
+                            "A record. I record the show. " +
+                            "I produce produce. " +
+                            "An object. I object to that. " +
+                            "I learned the rules. The learned woman. " +
+                            "Intimate clothing. What did you intimate? " +
+                            "Your house. We should house everyone. " +
+                            "You make an excuse. I excuse you. " +
+                            "You entrance me. I make an entrance. " +
+                            "With dogged determination I dogged his steps. " +
+                            "I bow down. I like your bow. " +
+                            "I articulate. He is very articulate. " +
+                            "invalid response for an invalid. " +
+                            "I moped on my moped. " +
+                            "I rebel because I am a rebel. " +
+                            "I refuse to take out the refuse. " +
+                            "sows the seeds for the sows to eat. " +
+                            "Use it or what use are you?" +
+                            "I led the horse to water but it was hit with a lead bar. " +
+                            "I will not lead again. Then I read a book. " +
+                            "I will read again. I close the door. That was a close shave.");
+
+            play(audio);
+        }
+}
 
 }
