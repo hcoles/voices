@@ -146,11 +146,10 @@ Voices will add pauses if it encounters the following markdown symbols
 
 The defaults can be adjusted via the ChorusConfig class.
 
-## Heterographs
+## Hetronyms
 
-Although its hetrograph (words with the same spelling, but different meanings and (sometimes) pronunciations) 
-dictionary is currently small, Voices has quite good hetrograph handling thanks to its use of the 
-part of speech tagging provided by the OpenNLP library. It sometimes performs better than piper and espeak-ng.
+Voice's hetronym (words with the same spelling but different pronunciations) handling can sometimes perform better
+than piper and espeak-ng thanks to part of speech tagging provided by the OpenNLP library.
 
 Phrases such as
 
@@ -181,7 +180,7 @@ check they match your use case.
 The [Sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx) project can also run piper models.
 
 At the point this project was initiated, sherpa was difficult to consume as it was not available from maven central and required 
-manual installation of native libraries. It also seemed to handle homographs poorly.
+manual installation of native libraries. It also seemed to handle hetronyms poorly.
 
 This situation may have since improved.
 
