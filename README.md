@@ -116,7 +116,7 @@ Once the dependency has been added
 The phonemizer can be selected with
 
 ```java
-ChorusConfig config = chorusConfig(Dictionary.empty())
+ChorusConfig config = chorusConfig(Dictionaries.empty())
         .withModel(new OpenVoiceSupplier());
 ```
 
