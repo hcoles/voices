@@ -7,6 +7,7 @@ import org.pitest.voices.ModelConfig;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
 
 
@@ -71,7 +72,7 @@ public class FileModel implements Model {
 
     @Override
     public ModelConfig resolveConfig(Path cacheBase) throws IOException {
-        Path json = resolveFiles(cacheBase).resolve(onnx() + ".json");
+        Path json = resolveFiles(cacheBase).resolve(json());
         try(var in = Files.newInputStream(json, StandardOpenOption.READ)) {
             return ModelConfig.fromJson(in);
         }
@@ -82,18 +83,25 @@ public class FileModel implements Model {
         return gain;
     }
 
-    String onnx() {
-        return name + ".onnx";
-    }
-
     private Path resolveFiles(Path cacheBase) throws IOException {
         Path location = cacheBase.resolve(this.location);
         Path onnx = location.resolve(onnx());
-        if (!Files.exists(onnx)) {
+        Path json = location.resolve(json());
+        if (!Files.exists(onnx) || !Files.exists(json)) {
             Path tempLocation = fetch();
-            Files.move(tempLocation, location);
+            Files.createDirectories(location);
+            Files.move(tempLocation.resolve(onnx()), onnx, StandardCopyOption.REPLACE_EXISTING);
+            Files.move(tempLocation.resolve(json()), json, StandardCopyOption.REPLACE_EXISTING);
         }
         return location;
+    }
+
+    private String onnx() {
+        return name + ".onnx";
+    }
+
+    private String json() {
+        return onnx() + ".json";
     }
 
     private Path fetch() throws IOException {
