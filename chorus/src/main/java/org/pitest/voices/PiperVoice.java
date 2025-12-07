@@ -52,7 +52,7 @@ class PiperVoice implements Voice {
 
     @Override
     public Audio say(String text) {
-        return toSentences(text).stream()
+        return toSentences(stripMarkdownEmphasis(text)).stream()
                 .map(this::saySentence)
                 .reduce(Audio::append)
                 .orElseGet(() -> Audio.silence(0));
@@ -189,5 +189,11 @@ class PiperVoice implements Voice {
         } catch (IOException ex) {
             throw new UncheckedIOException(ex);
         }
+    }
+
+    private String stripMarkdownEmphasis(String text) {
+        // we don't currently process emphasis, but the markdown symbols
+        // break dictionary lookup
+        return text.replace("*", "");
     }
 }
