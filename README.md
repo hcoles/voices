@@ -4,7 +4,8 @@ Fast in-process text to speech for Java 17 and above. No external apis. No syste
 
 * [piper sample 1](https://github.com/user-attachments/assets/3bb91fe5-682a-498b-ab38-3f4e0d1885f6)
 * [piper sample 2](https://github.com/user-attachments/assets/3ff5dd48-df3f-4b47-9b4e-e88f97bf6d4d)
-* [kokoro sample](https://github.com/user-attachments/assets/b55f8ed8-08a1-4de1-b6c6-493d7e449431)
+* [kokoro sample 1](https://github.com/user-attachments/assets/d06c3ea9-5f22-464a-93e6-14c19485f157)
+* [kokoro sample 2](https://github.com/user-attachments/assets/b55f8ed8-08a1-4de1-b6c6-493d7e449431)
 
 # What is this?
 
