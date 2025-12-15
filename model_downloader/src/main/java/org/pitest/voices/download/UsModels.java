@@ -5,12 +5,9 @@ import org.pitest.voices.Language;
 import org.pitest.voices.Model;
 
 import static org.pitest.voices.download.Models.url;
+import static org.pitest.voices.piper.PiperHandler.piper;
 
 public class UsModels {
-
-    public static Model amyMedium() {
-        return sherpaModel("en_US-amy-medium", 1.0f);
-    }
 
     public static Model bryceMedium() {
         return sherpaModel("en_US-bryce-medium", 1.0f);
@@ -57,7 +54,7 @@ public class UsModels {
     }
 
     private static Model sherpaModel(String name, float gain) {
-        return new FileModel(name,
+        return new FileModel(piper(), name,
                 "vits-piper-" + name,
                 Language.en_US,
                 new ModelDownloader(url("https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-piper-" + name + ".tar.bz2")),

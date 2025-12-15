@@ -29,7 +29,17 @@
             <artifactId>core</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.pitest.voices</groupId>
+            <artifactId>piper-runtime</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.microsoft.onnxruntime</groupId>
+            <artifactId>onnxruntime</artifactId>
+            <version>${onnx.version}</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>me.tongfei</groupId>
             <artifactId>progressbar</artifactId>
@@ -41,13 +51,6 @@
             <version>1.28.0</version>
         </dependency>
 
-
-        <dependency>
-            <groupId>com.microsoft.onnxruntime</groupId>
-            <artifactId>onnxruntime</artifactId>
-            <version>1.22.0</version>
-            <scope>test</scope>
-        </dependency>
 
         <dependency>
             <groupId>org.pitest.voices</groupId>

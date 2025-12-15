@@ -68,7 +68,7 @@ public class Audio {
 
     public Audio append(Audio other) {
         if (this.sampleRate != other.sampleRate) {
-            throw new IllegalArgumentException("Sample rates must match");
+            throw new IllegalArgumentException("Sample rates must match : " + this.sampleRate + " != " + other.sampleRate);
         }
 
         float[] combined = concat(this.samples, other.samples);

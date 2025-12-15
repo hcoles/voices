@@ -31,6 +31,12 @@
         </dependency>
         <dependency>
             <groupId>org.pitest.voices</groupId>
+            <artifactId>piper-runtime</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.pitest.voices</groupId>
             <artifactId>cori-model</artifactId>
             <version>${models.version}</version>
         </dependency>

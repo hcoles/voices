@@ -1,8 +1,17 @@
 package org.pitest.voices.download;
 
+
+import ai.onnxruntime.OrtEnvironment;
+import ai.onnxruntime.OrtException;
+import ai.onnxruntime.OrtSession;
 import org.pitest.voices.Language;
 import org.pitest.voices.Model;
 import org.pitest.voices.ModelConfig;
+import org.pitest.voices.Voice;
+import org.pitest.voices.VoiceHandler;
+import org.pitest.voices.VoiceSession;
+import org.pitest.voices.g2p.core.PiperPhonemizer;
+import org.pitest.voices.g2p.core.tracing.Trace;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,9 +19,9 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
 
-
 public class FileModel implements Model {
 
+    private final VoiceHandler handler;
     private final String name;
     private final String location;
     private final Language lang;
@@ -22,20 +31,22 @@ public class FileModel implements Model {
 
     private final float gain;
 
-    public FileModel(String name,
+    public FileModel(VoiceHandler handler,
+                     String name,
                      String location,
                      Language lang,
                      ModelFetcher resolver,
                      float gain) {
-        this(name, location,lang, -1, resolver, gain);
+        this(handler, name, location,lang, -1, resolver, gain);
     }
 
-    public FileModel(String name,
-                 String location,
-                 Language lang,
-                 int sid,
-                 ModelFetcher resolver,
-                 float gain) {
+    public FileModel(VoiceHandler handler, String name,
+                     String location,
+                     Language lang,
+                     int sid,
+                     ModelFetcher resolver,
+                     float gain) {
+        this.handler = handler;
         this.name = name;
         this.location = location;
         this.lang = lang;
@@ -62,7 +73,7 @@ public class FileModel implements Model {
 
     @Override
     public Model withLanguage(Language lang) {
-        return new FileModel(name, location, lang, sid, resolver, gain);
+        return new FileModel(handler, name, location, lang, sid, resolver, gain);
     }
 
     @Override
@@ -81,6 +92,16 @@ public class FileModel implements Model {
     @Override
     public float defaultGain() {
         return gain;
+    }
+
+    @Override
+    public Voice createVoice(PiperPhonemizer phonemizer, Trace trace, VoiceSession session, float gain) {
+        return handler.createVoice(this, phonemizer, trace, session, gain);
+    }
+
+    @Override
+    public VoiceSession createSession(OrtEnvironment env, OrtSession.SessionOptions options, Path base) throws IOException, OrtException {
+        return handler.createSession(this, env, options, base);
     }
 
     private Path resolveFiles(Path cacheBase) throws IOException {

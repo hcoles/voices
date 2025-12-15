@@ -41,12 +41,8 @@ public class Chorus implements AutoCloseable {
         var session = voices.computeIfAbsent(model.id(), n -> loadVoice(model));
         var phonemizer = new PiperPhonemizer(g2p(), conf.expansions(), conf.trace());
 
-        return new PiperVoice(model,
-                phonemizer,
-                conf.trace(),
+        return model.createVoice(phonemizer, conf.trace(),
                 session,
-                Pause.defaultPauses(),
-                ModelParameters.defaultParams(),
                 model.defaultGain());
     }
 
@@ -71,8 +67,7 @@ public class Chorus implements AutoCloseable {
         OrtEnvironment env = OrtEnvironment.getEnvironment();
         try {
             var options = configureSession();
-            var session = env.createSession(model.asBytes(conf.base()), options);
-            return new VoiceSession(env, model.resolveConfig(conf.base()), session);
+            return model.createSession(env, options, conf.base());
         } catch (IOException | OrtException e) {
             throw new RuntimeException(e);
         }

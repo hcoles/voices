@@ -17,11 +17,12 @@
     <!-- this revision number used only for local builds, release version is taken from release branch name -->
     <revision>dev-SNAPSHOT</revision>
 
-    <!-- piper models are loaded to maven central separately from the main project -->
-    <models.version>0.0.1</models.version>
+    <!-- models are loaded to maven central separately from the main project -->
+    <models.version>0.0.2</models.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <git.repository>hcoles/voices</git.repository>
+    <onnx.version>1.20.0</onnx.version>
 
   </properties>
 
@@ -275,6 +276,7 @@
   <modules>
     <module>g2p</module>
     <module>core</module>
+    <module>piper</module>
     <module>alba</module>
     <module>bryce</module>
     <module>cori</module>
@@ -283,6 +285,7 @@
     <module>en_uk</module>
     <module>en_us</module>
     <module>openvoice</module>
+    <module>kokoro</module>
 
   </modules>
 

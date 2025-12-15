@@ -106,12 +106,12 @@ public class Homographs {
 
             PosFinder posFinder = new PosFinder(h.word);
             PiperPhonemizer pa = new PiperPhonemizer(new EnglishModel(noHomophones), emptyList(), posFinder);
-            pa.toPhonemes(Language.en_GB, h.phraseA);
+            pa.phonemize(Language.en_GB, h.phraseA);
             var posA = posFinder.pos;
 
             posFinder = new PosFinder(h.word);
             PiperPhonemizer pb = new PiperPhonemizer(new EnglishModel(noHomophones), emptyList(), posFinder);
-            pb.toPhonemes(Language.en_GB, h.phraseB);
+            pb.phonemize(Language.en_GB, h.phraseB);
             var posB = posFinder.pos;
 
 

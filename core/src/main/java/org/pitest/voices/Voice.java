@@ -51,12 +51,21 @@ public interface Voice {
     Voice amplifiedBy(float factor);
 
     /**
-     * Produce a variation of this voice with an explicitly set length scale.
-     * Lower numbers produce faster speech.
-     * @param lengthScale lengthScale to use
+     * Produce a variation of this voice with an explicitly set speed.
+     * @param speed speed to use
      * @return a new Voice
      */
-    Voice withLengthScale(float lengthScale);
+    Voice withSpeed(float speed);
+
+    /**
+     * Produce a variation of this voice with an explicitly set stress.
+     * Removing stress can result in faster more natural sounding speech, particularly
+     * with the kokoro model.
+     *
+     * @param stress speech stress
+     * @return updated parameters
+     */
+    Voice withStress(Stress stress);
 
     /**
      * Produce a variation of this voice with explicitly set parameters

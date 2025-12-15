@@ -29,16 +29,6 @@ public class PiperPhonemizer {
         this.trace = trace;
     }
 
-    public List<String> toPhonemes(Language lang, String text) {
-        Stream<String> wordPhonemes = phonemize(lang, text).stream()
-                .flatMap(this::asChars);
-
-        return Stream.concat(Stream.of("^"),
-                        Stream.concat(wordPhonemes, Stream.of("$")))
-                .collect(Collectors.toList());
-    }
-
-
     /**
      * Tokenize a string into a list of phoneme strings
      * @param text Text to tokenize
@@ -47,7 +37,7 @@ public class PiperPhonemizer {
     public List<String> phonemize(Language lang, String text) {
         try {
             return processTokens(lang, text).stream()
-                    .map(PhonemeToken::getPhoneme)
+                    .map(PhonemeToken::phoneme)
                     .collect(Collectors.toList());
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -103,36 +93,23 @@ public class PiperPhonemizer {
                 .replaceAll("”", "\"");
     }
 
-    private Stream<String> asChars(String s) {
-        return s.chars()
-                .mapToObj(c -> "" + (char) c);
-    }
-
-
-    private static class PhonemeToken {
-
-        private final String phoneme;
-        private final String word;
-
-        public PhonemeToken(String phoneme, String word) {
-            this.phoneme = phoneme;
-            this.word = word;
-        }
-
-        public String getPhoneme() {
-            // make sure symbols pass through for further processing
-            if (phoneme.isEmpty()) {
-                return word;
-            }
-            return phoneme;
-        }
+    private record PhonemeToken(String phoneme, String word) {
 
         @Override
-        public String toString() {
-            return "PhonemeToken{" +
-                    "phoneme='" + phoneme + '\'' +
-                    ", word='" + word + '\'' +
-                    '}';
+        public String phoneme() {
+                // make sure symbols pass through for further processing
+                if (phoneme.isEmpty()) {
+                    return word;
+                }
+                return phoneme;
+            }
+
+            @Override
+            public String toString() {
+                return "PhonemeToken{" +
+                        "phoneme='" + phoneme + '\'' +
+                        ", word='" + word + '\'' +
+                        '}';
+            }
         }
-    }
 }

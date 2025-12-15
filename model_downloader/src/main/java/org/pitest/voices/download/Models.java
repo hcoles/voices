@@ -5,6 +5,8 @@ import org.pitest.voices.Model;
 
 import java.net.URL;
 
+import static org.pitest.voices.piper.PiperHandler.piper;
+
 public class Models {
 
     public static Model coriHigh() {
@@ -40,7 +42,7 @@ public class Models {
     }
 
     private static Model sherpaModel(String name, int sid, float gain) {
-        return new FileModel(name,
+        return new FileModel(piper(), name,
                 "vits-piper-" + name,
                 Language.en_GB,
                 sid,
