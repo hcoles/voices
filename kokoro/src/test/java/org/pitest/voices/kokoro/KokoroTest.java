@@ -29,6 +29,16 @@ public class KokoroTest {
     }
 
     @Test
+    void camus() {
+        try (Chorus chorus = new Chorus(config)) {
+            Voice v1 = chorus.voice(KokoroModels.afSarah())
+                    .withSpeed(1.1f);
+            var audio = v1.say("Mother died today. Or maybe, yesterday; I can't be sure.");
+            Play.play(audio);
+        }
+    }
+
+    @Test
     void gibson() {
         try (Chorus chorus = new Chorus(config)) {
             Voice v1 = chorus.voice(KokoroModels.bfIsabella())

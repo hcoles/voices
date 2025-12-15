@@ -2,9 +2,9 @@
 
 Fast in-process text to speech for Java 17 and above. No external apis. No system dependencies.
 
-
-* [sample 1](https://github.com/user-attachments/assets/3bb91fe5-682a-498b-ab38-3f4e0d1885f6)
-* [sample 2](https://github.com/user-attachments/assets/3ff5dd48-df3f-4b47-9b4e-e88f97bf6d4d)
+* [piper sample 1](https://github.com/user-attachments/assets/3bb91fe5-682a-498b-ab38-3f4e0d1885f6)
+* [piper sample 2](https://github.com/user-attachments/assets/3ff5dd48-df3f-4b47-9b4e-e88f97bf6d4d)
+* [kokoro sample](https://github.com/user-attachments/assets/b55f8ed8-08a1-4de1-b6c6-493d7e449431)
 
 # What is this?
 
@@ -14,41 +14,48 @@ It can produce reasonable quality audio using low-specced hardware.
 
 It provides several components
 
-* Code to run the voice models from the [piper](https://github.com/rhasspy/piper) project
-* A piper-compatible pure Java phonemizer for English partially ported from [phonemize](https://github.com/hans00/phonemize)
+* Code to run the voice models from the [piper](https://github.com/rhasspy/piper) and [kokoro](https://huggingface.co/spaces/hexgrad/Kokoro-TTS) projects
+* A compatible pure Java phonemizer for English partially ported from [phonemize](https://github.com/hans00/phonemize)
 * Compatible phoneme dictionaries for uk and us English
 * A multi-lingual phonemizer using the [onnx model](https://huggingface.co/OpenVoiceOS/g2p-mbyt5-12l-ipa-childes-espeak-onnx) from OpenVoiceOs 
-* A small number of piper models available as dependencies on maven central
+* A small number of models available as dependencies on maven central
 * Code to download other models not uploaded to central
 
 The models are run using the onnxruntime library, so can utilise both CPU and GPU.
+
+## Which Model Should I Use?
+
+The piper models are fast and very lightweight. The Kokoro models arguably produce better quality speech, but run approximately
+4x slower but can be accelerated with a GPU. There seems to be little benefit using a GPU with the piper models.
+
+Ultimately, which voice sounds better is a matter of personal taste.
 
 ## Releases
 
 See [Releases](https://github.com/hcoles/voices/releases)
 
-## English-Only Usage With Rules Based Phonemizer
+## English-Only Usage With Piper & Rules Based Phonemizer
 
-Using Voices requires three code dependencies and one or more models.
+Using Voices with pipper requires three code dependencies and one or more models.
 
 ```xml
 <!-- main dependency -->
 <dependency>
     <groupId>org.pitest.voices</groupId>
     <artifactId>chorus</artifactId>
-    <version>0.0.8</version>
+    <version>0.0.9</version>
 </dependency>
 <!-- a prepackaged model -->
 <dependency>
     <groupId>org.pitest.voices</groupId>
     <artifactId>alba</artifactId>
-    <version>0.0.8</version>
+    <version>0.0.9</version>
 </dependency>
 <!-- dictionary of pronunciations -->
 <dependency>
     <groupId>org.pitest.voices</groupId>
     <artifactId>en_uk</artifactId> <!-- or en_us -->
-    <version>0.0.8</version>
+    <version>0.0.9</version>
 </dependency>
 <!-- runtime for onnx models -->
 <dependency>
@@ -81,7 +88,7 @@ A wider range of models can be retrieved at runtime by adding the model download
 <dependency>
     <groupId>org.pitest.voices</groupId>
     <artifactId>model-downloader</artifactId>
-    <version>0.0.8</version>
+    <version>0.0.9</version>
 </dependency>
 ```
 
@@ -109,7 +116,7 @@ Once the dependency has been added
 <dependency>
     <groupId>org.pitest.voices</groupId>
     <artifactId>openvoice-phonemizer</artifactId>
-    <version>0.0.8</version>
+    <version>0.0.9</version>
 </dependency>
 ```
 
@@ -118,6 +125,29 @@ The phonemizer can be selected with
 ```java
 ChorusConfig config = chorusConfig(Dictionaries.empty())
         .withModel(new OpenVoiceSupplier());
+```
+
+## Using Kokoro Models
+
+The kokoro-runtime dependency provides the kokoro model and 11 voices. Usage and dictionary/phonmiser selection is then the same as for piper models,
+
+```xml
+<dependency>
+    <groupId>org.pitest.voices</groupId>
+    <artifactId>openvoice-phonemizer</artifactId>
+    <version>0.0.9</version>
+</dependency>
+```
+
+```java
+ChorusConfig config = chorusConfig(EnUkDictionary.en_uk());
+try (Chorus chorus = new Chorus(config)) {
+     Voice v1 = chorus.voice(KokoroModels.afSarah())
+        .withSpeed(1.1f);
+
+    Audio audio = alba.say("Kokoro also works!");
+    audio.save(some path);
+}
 ```
 
 ## Running on GPU
@@ -134,6 +164,8 @@ ChorusConfig config = gpuChorusConfig(EnUkDictionary.en_uk());
 
 This runs the model on gpu 0 with no other options set. More complex setups can be configured using the `withCudaOptions`
 method on ChorusConfig.
+
+There seems to be little benefit using a gpu with the piper models, but inferences can be much faster for kokoro models.
 
 ## Pauses
 
