@@ -22,7 +22,7 @@ public class TryItOutTest {
     @Test
     void gibson() {
         try (Chorus chorus = new Chorus(config)) {
-            Voice v1 = chorus.voice(Bryce.bryceMedium()).withLengthScale(0.7f);
+            Voice v1 = chorus.voice(Bryce.bryceMedium()).withSpeed(0.7f);
             var audio = v1.say("The sky above the port was the color of television, tuned to a dead channel.");
             play(audio);
         }
@@ -31,7 +31,7 @@ public class TryItOutTest {
     @Test
     void huckleberryFinn() {
         try (Chorus chorus = new Chorus(config)) {
-            Voice v1 = chorus.voice(Alba.albaMedium()).withLengthScale(0.5f);
+            Voice v1 = chorus.voice(Alba.albaMedium()).withSpeed(0.5f);
 
             String text = String.join("\n", Resource.read("/samples/huckleberry_finn.md"));
             Audio audio = v1.say(text);

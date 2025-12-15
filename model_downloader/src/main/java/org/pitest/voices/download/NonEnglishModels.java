@@ -4,6 +4,7 @@ import org.pitest.voices.Language;
 import org.pitest.voices.Model;
 
 import static org.pitest.voices.download.Models.url;
+import static org.pitest.voices.piper.PiperHandler.piper;
 
 
 public class NonEnglishModels {
@@ -17,7 +18,7 @@ public class NonEnglishModels {
     }
 
     private static Model sherpaModel(String name, Language lang, float gain) {
-        return new FileModel(name,
+        return new FileModel(piper(), name,
                 "vits-piper-" + name,
                 lang,
                 -1,

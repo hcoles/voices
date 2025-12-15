@@ -2,7 +2,6 @@ package org.pitest.voices.openvoice;
 
 import org.junit.jupiter.api.Test;
 import org.pitest.voices.alba.Alba;
-import org.pitest.voices.g2p.core.Dictionary;
 import org.pitest.voices.g2p.core.dictionary.Dictionaries;
 import org.pitest.voices.g2p.core.tracing.LoggingTrace;
 import org.pitest.voices.Resource;
