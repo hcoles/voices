@@ -9,10 +9,6 @@ import static org.pitest.voices.piper.PiperHandler.piper;
 
 public class UsModels {
 
-    public static Model amyMedium() {
-        return sherpaModel("en_US-amy-medium", 1.0f);
-    }
-
     public static Model bryceMedium() {
         return sherpaModel("en_US-bryce-medium", 1.0f);
     }
