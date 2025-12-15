@@ -15,7 +15,7 @@ import static org.pitest.voices.download.ModelsTest.ARBITRARY_SIZE;
 
 class UsModelsTest {
     Path cache = ChorusConfig.chorusConfig(Dictionaries.empty()).base();
-    
+
     @Test
     void bryceMedium() throws IOException {
         var model = UsModels.bryceMedium();
