@@ -130,12 +130,12 @@ ChorusConfig config = chorusConfig(Dictionaries.empty())
 
 ## Using Kokoro Models
 
-The kokoro-runtime dependency provides the kokoro model and 11 voices. Usage and dictionary/phonmiser selection is then the same as for piper models,
+The `kokoro-runtime` dependency provides the kokoro model and 11 voices. Usage and dictionary/phonmiser selection is then the same as for piper models,
 
 ```xml
 <dependency>
     <groupId>org.pitest.voices</groupId>
-    <artifactId>openvoice-phonemizer</artifactId>
+    <artifactId>kokoro-runtime</artifactId>
     <version>0.0.9</version>
 </dependency>
 ```
