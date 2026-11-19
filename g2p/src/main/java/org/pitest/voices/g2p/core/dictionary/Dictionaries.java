@@ -75,7 +75,7 @@ public class Dictionaries {
         lines.add("entrance=ˈɛntɹəns");
 
         lines.add("excuse=ɛkskjˈuːs|NN");
-        lines.add("entrance=ɛkskjˈuːz");
+        lines.add("excuse=ɛkskjˈuːz");
 
         lines.add("house=hˈaʊz|VB");
         lines.add("house=hˈaʊs");
